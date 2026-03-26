@@ -5,7 +5,8 @@
 /* ─── Staff App Root ─── */
 .staff-app {
     min-height: 100vh;
-    background: var(--bg-dark);
+    background: transparent;
+    /* Parent handles animated background */
     color: var(--text-main);
     overflow-x: hidden;
     width: 100%;
@@ -13,10 +14,11 @@
 
 /* ─── Header ─── */
 .staff-header {
-    background: var(--bg-surface);
-    backdrop-filter: blur(15px);
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     padding: 0 16px;
-    height: 56px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -24,7 +26,7 @@
     top: 0;
     z-index: 100;
     border-bottom: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
     gap: 8px;
 }
 
@@ -101,13 +103,13 @@
 
 /* ─── Welcome Banner ─── */
 .staff-welcome {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border-radius: 14px;
-    padding: 24px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(197, 173, 237, 0.1));
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 24px 32px;
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(157, 110, 233, 0.08);
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -172,47 +174,49 @@
 
 /* ─── Dashboard Card ─── */
 .staff-dash-card {
-    background: linear-gradient(135deg, #059669, #10b981);
-    border: none;
-    border-radius: 18px;
-    padding: 24px;
-    cursor: pointer;
-    color: white;
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1.5px solid var(--glass-border) !important;
+    border-radius: 24px !important;
+    padding: 28px !important;
+    cursor: pointer !important;
+    color: var(--text-main) !important;
     text-align: left;
     display: flex;
     flex-direction: column;
-    min-height: 170px;
+    min-height: 180px;
     width: 100%;
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
 }
 
 .staff-dash-card.teal {
-    background: linear-gradient(135deg, #0d9488, #14b8a6);
-    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.25);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
 }
 
 .staff-dash-card.blue {
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
 }
 
 .staff-dash-card.violet {
-    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)) !important;
+    border-color: rgba(139, 92, 246, 0.2) !important;
 }
 
 .staff-dash-card.rose {
-    background: linear-gradient(135deg, #e11d48, #f43f5e);
-    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.25);
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.1), rgba(244, 63, 94, 0.05)) !important;
+    border-color: rgba(244, 63, 94, 0.2) !important;
 }
 
 .staff-dash-card.sky {
-    background: linear-gradient(135deg, #0284c7, #0ea5e9);
-    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.05)) !important;
+    border-color: rgba(14, 165, 233, 0.2) !important;
 }
 
 .staff-dash-card:hover {
@@ -248,11 +252,16 @@
 
 .staff-card-action {
     margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
     font-size: 13px;
-    font-weight: 700;
-    opacity: 0.95;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* ─── Inner page header ─── */
@@ -266,8 +275,8 @@
 
 .staff-page-header h2 {
     font-size: 20px;
-    font-weight: 700;
-    color: #1e293b;
+    font-weight: 800;
+    color: var(--text-main);
     margin: 0;
 }
 
