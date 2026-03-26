@@ -3914,7 +3914,9 @@ input::placeholder {
 }
 
 /* Status Badges - Themed Pill System */
-.badge, .status-badge, .status-pill {
+.badge,
+.status-badge,
+.status-pill {
   padding: 6px 14px !important;
   border-radius: 20px !important;
   font-weight: 800 !important;
@@ -3929,13 +3931,17 @@ input::placeholder {
   border: 1px solid transparent !important;
 }
 
-.badge.active, .badge-active, .status-active {
+.badge.active,
+.badge-active,
+.status-active {
   background: rgba(16, 185, 129, 0.12) !important;
   color: #065f46 !important;
   border-color: rgba(16, 185, 129, 0.3) !important;
 }
 
-.badge.inactive, .badge-inactive, .status-inactive {
+.badge.inactive,
+.badge-inactive,
+.status-inactive {
   background: rgba(239, 68, 68, 0.1) !important;
   color: #991b1b !important;
   border-color: rgba(239, 68, 68, 0.2) !important;
@@ -4200,22 +4206,37 @@ header.hero-gradient div {
   color: #ffffff !important;
 }
 
-/* --- Staff Navbar (Top Header) Premium Dark Glass --- */
-.top-header,
-header.hero-gradient {
-  background: var(--bg-surface) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid var(--glass-border) !important;
-  box-shadow: var(--shadow-md) !important;
-  padding: 0 24px !important;
-  height: 70px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1000 !important;
+.list-page {
+  padding: 0 !important;
+}
+
+.list-table-wrap {
+  width: 100% !important;
+  overflow-x: auto !important;
+  border-radius: 16px !important;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  margin-bottom: 24px;
+}
+
+.list-table {
+  min-width: 800px;
+  /* Ensure table doesn't squish too much */
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--bg-card);
+  border-radius: 24px;
+  border: 1.5px dashed var(--glass-border);
+  color: var(--text-main);
+}
+
+.empty-state .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
 }
 
 .top-header h1,

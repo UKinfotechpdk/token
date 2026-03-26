@@ -342,10 +342,10 @@ export default function StaffAssignToken({ staff, onToast, onNavigate }) {
                                                 <label>Mobile Number</label>
                                                 <div style={{ display: 'flex', alignItems: 'stretch' }}>
                                                     <div style={{
-                                                        padding: '0 16px', background: 'rgba(30, 41, 59, 0.6)',
+                                                        padding: '0 16px', background: 'var(--bg-input)',
                                                         border: '1px solid ' + (errors.customerPhone ? '#ef4444' : 'var(--glass-border)'),
                                                         borderRight: 'none', borderRadius: '12px 0 0 12px',
-                                                        display: 'flex', alignItems: 'center', fontWeight: '800', color: 'white'
+                                                        display: 'flex', alignItems: 'center', fontWeight: '800', color: 'var(--text-main)'
                                                     }}>
                                                         +91
                                                     </div>
