@@ -444,7 +444,7 @@ body::after {
 }
 
 .welcome-title {
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: var(--text-main) !important;
   font-size: 2.8rem !important;
   font-weight: 950 !important;
   letter-spacing: -1.8px !important;
@@ -478,8 +478,9 @@ body::after {
 .glass-card span:not(.badge),
 .glass-card div:not(.badge):not(.status-badge),
 .glass-card strong {
-  color: var(--text-muted) !important;
-  font-weight: 500 !important;
+  color: #5b508a !important;
+  /* Slightly more contrast than var(--text-muted) */
+  font-weight: 600 !important;
 }
 
 .card-action,
@@ -3506,10 +3507,14 @@ td {
 }
 
 /* Fix cards explicitly */
+/* Fix cards explicitly */
 .dash-card,
 .glass-card {
   background: var(--bg-card) !important;
   color: var(--text-main) !important;
+  border-radius: var(--r-lg) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .module-panel {
@@ -3574,44 +3579,59 @@ td {
 }
 
 /* Stat Card Accents - Restored Vibrant Gradients */
+/* Stat Card Accents - Pastel Theme Vibrant Variants */
 .card-analytics {
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
-}
-
-.card-analytics:hover {
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4) !important;
+  background: linear-gradient(135deg, var(--accent-3) 0%, #4a90e2 100%) !important;
 }
 
 .card-revenue {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-}
-
-.card-revenue:hover {
-  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4) !important;
+  background: linear-gradient(135deg, var(--accent-teal) 0%, #0d9488 100%) !important;
 }
 
 .card-alerts {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
 }
 
-.card-alerts:hover {
-  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.4) !important;
-}
-
 .card-activity {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
-}
-
-.card-activity:hover {
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4) !important;
+  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%) !important;
 }
 
 .card-critical {
-  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+  background: linear-gradient(135deg, var(--secondary) 0%, #db2777 100%) !important;
 }
 
-.card-critical:hover {
-  box-shadow: 0 20px 40px rgba(244, 63, 94, 0.4) !important;
+/* Force White Text on Saturated Cards for Contrast */
+.card-analytics *,
+.card-revenue *,
+.card-alerts *,
+.card-activity *,
+.card-critical * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Exception for icons if needed */
+.card-icon-box {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.card-action {
+  background: rgba(255, 255, 255, 0.15) !important;
+  padding: 6px 12px !important;
+  border-radius: 20px !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+}
+
+.card-action:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  text-decoration: none !important;
 }
 
 /* Dashboard UI Polish */
