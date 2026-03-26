@@ -105,7 +105,7 @@ body {
     radial-gradient(ellipse at 94% 85%, rgba(99, 175, 233, 0.70) 0%, transparent 50%),
     radial-gradient(ellipse at 5% 90%, rgba(162, 210, 255, 0.60) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 50%, rgba(235, 98, 212, 0.25) 0%, transparent 60%),
-    linear-gradient(145deg, #b99cf3 0%, #e08dd7 30%, #f0a8c8 55%, #8fcbf8 80%, #75b7f2 100%),
+    linear-gradient(145deg, #c1a6f8 0%, #f3a1e9 30%, #f0a8c8 55%, #8fcbf8 80%, #75b7f2 100%),
     radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.05) 100%);
   background-attachment: fixed;
   color: var(--text-main);
@@ -5207,10 +5207,10 @@ table {
 
 .premium-navbar {
   animation: navSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-  background: rgba(7, 11, 20, 0.85) !important;
-  backdrop-filter: blur(25px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
   position: sticky !important;
   top: 0;
   z-index: 1100 !important;
@@ -5220,7 +5220,8 @@ table {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  color: #ffffff !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03) !important;
 }
 
 /* Responsive Navbar */
@@ -5267,15 +5268,16 @@ table {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), rgba(168, 85, 247, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
   z-index: 2;
+  opacity: 0.3;
 }
 
 .nav-glow-cursor {
   position: absolute;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--primary) 0.08, transparent 70%);
   pointer-events: none;
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -5312,7 +5314,7 @@ table {
   font-size: 1.6rem;
   font-weight: 900;
   letter-spacing: -0.8px;
-  background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--text-main) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -5325,33 +5327,55 @@ table {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: var(--bg-input) !important;
+  border: 1px solid var(--glass-border) !important;
   border-radius: 30px;
   font-size: 13px;
   font-weight: 700;
-  color: #10b981 !important;
+  color: var(--success) !important;
   position: relative;
   transition: all 0.3s ease;
   cursor: help;
+  box-shadow: var(--shadow-sm);
 }
 
 .status-indicator span {
-  color: #10b981 !important;
+  color: var(--success) !important;
 }
 
 .status-indicator:hover {
-  background: rgba(16, 185, 129, 0.1);
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+  background: white !important;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .dot-pulse {
   width: 8px;
   height: 8px;
-  background: #10b981;
+  background: var(--success);
   border-radius: 50%;
   animation: pulseDot 2s infinite;
-  box-shadow: 0 0 8px #10b981;
+  box-shadow: 0 0 8px var(--success);
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  background: var(--grad-primary) !important;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 900;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.avatar-wrapper:hover .user-avatar {
+  box-shadow: var(--shadow-lg);
 }
 
 .avatar-wrapper {
@@ -5383,12 +5407,12 @@ table {
 }
 
 .pill-logout {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--glass-border) !important;
   border-radius: 40px !important;
-  padding: 12px 28px !important;
+  padding: 10px 24px !important;
   font-weight: 800 !important;
-  color: #ffffff !important;
+  color: var(--text-main) !important;
   overflow: hidden;
   position: relative;
   z-index: 5;
@@ -5397,22 +5421,27 @@ table {
   align-items: center !important;
   justify-content: center !important;
   text-transform: uppercase;
-  font-size: 13px !important;
+  font-size: 12px !important;
   letter-spacing: 0.8px;
+  box-shadow: var(--shadow-sm);
 }
 
 .pill-logout span {
-  color: #ffffff !important;
+  color: var(--text-main) !important;
   position: relative;
   z-index: 2;
 }
 
 .pill-logout:hover {
-  background: rgba(244, 63, 94, 0.15) !important;
-  border-color: rgba(244, 63, 94, 0.4) !important;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(244, 63, 94, 0.2);
-  color: #fb7185 !important;
+  background: rgba(244, 63, 94, 0.08) !important;
+  border-color: rgba(244, 63, 94, 0.2) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.1);
+  color: var(--danger) !important;
+}
+
+.pill-logout:hover span {
+  color: var(--danger) !important;
 }
 
 .premium-tooltip {
@@ -5420,8 +5449,8 @@ table {
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: #000;
-  color: #fff;
+  background: var(--text-main);
+  color: white;
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 11px;
@@ -5430,7 +5459,7 @@ table {
   transition: all 0.3s ease;
   white-space: nowrap;
   pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
   z-index: 100;
 }
 

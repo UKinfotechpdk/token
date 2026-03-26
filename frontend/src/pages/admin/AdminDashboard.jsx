@@ -71,15 +71,7 @@ const AdminDashboard = ({ user, onLogout }) => {
 
                     <div className="header-user-info" style={{ display: 'flex', alignItems: 'center' }}>
                         <div className="avatar-wrapper">
-                            <div className="user-avatar" style={{
-                                width: 44, height: 44, fontSize: 18,
-                                background: 'linear-gradient(135deg, var(--primary), #8b5cf6)',
-                                color: 'white',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                borderRadius: '50%', fontWeight: '900',
-                                boxShadow: '0 4px 15px rgba(37, 99, 235, 0.3)',
-                                border: '2px solid rgba(255,255,255,0.1)'
-                            }}>
+                            <div className="user-avatar">
                                 {user?.name?.charAt(0).toUpperCase()}
                             </div>
                         </div>
