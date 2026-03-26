@@ -79,22 +79,22 @@ export default function Dashboard({ onNavigate, onToast }) {
                 {CARDS.map((card, i) => (
                     <button key={card.key} className={`dash-card ${card.cssClass}`}
                         onClick={() => onNavigate(card.key)}
-                        style={{ animationDelay: `${i * 0.1}s`, textAlign: 'left' }}>
+                        style={{ animationDelay: `${i * 0.1}s` }}>
 
-                        <div className="card-content" style={{ display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                <div className="card-icon-box" style={{ fontSize: '32px', background: 'rgba(255,255,255,0.2)', padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div className="card-content">
+                            <div className="card-top-info">
+                                <div className="card-icon-box">
                                     {card.icon}
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span className="card-count" style={{ fontSize: '32px', fontWeight: '900', lineHeight: 1 }}>{card.count}</span>
-                                    <h3 className="card-label" style={{ margin: '4px 0 0 0' }}>{card.label}</h3>
-                                    <span className="card-desc" style={{ fontSize: '12px' }}>{card.desc}</span>
+                                <div className="card-text-stack">
+                                    <span className="card-count">{card.count}</span>
+                                    <h3 className="card-label">{card.label}</h3>
+                                    <span className="card-desc">{card.desc}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="card-action" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '4px', marginTop: '24px', zIndex: 1 }}>
+                        <div className="card-action">
                             <span>Manage</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
                                 <path d="M5 12h14M12 5l7 7-7 7" />

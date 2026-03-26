@@ -454,7 +454,7 @@ body::after {
 
 .highlight-text {
   color: var(--primary) !important;
-  text-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
+  font-weight: 800 !important;
 }
 
 /* --- Soft Pastel Typography System --- */
@@ -3636,17 +3636,33 @@ td {
 
 /* Dashboard UI Polish */
 .card-icon-box {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
   color: white !important;
 }
 
 .card-count {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
   color: white !important;
 }
 
 .card-label {
+  margin: 4px 0 0 0;
+  font-weight: 800;
   color: var(--text-main) !important;
+}
+
+.dash-card .card-label {
+  color: inherit !important;
+  /* Will be white inside colored cards due to previous catch-all */
 }
 
 .card-desc {
@@ -3663,6 +3679,35 @@ td {
   background: rgba(7, 11, 20, 0.7) !important;
   backdrop-filter: blur(15px) !important;
   -webkit-backdrop-filter: blur(15px) !important;
+}
+
+.card-top-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+.card-text-stack {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: inherit !important;
+  opacity: 0.8 !important;
+}
+
+.dash-card * {
+  text-shadow: none !important;
 }
 
 .module-panel,
