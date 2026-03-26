@@ -18,10 +18,10 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
 
     if (schedules.length === 0) {
         return (
-            <div className="glass-card" style={{ padding: '80px 40px', textAlign: 'center', animation: 'fadeIn 0.5s ease', background: 'rgba(15,23,42,0.6)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="glass-card" style={{ padding: '80px 40px', textAlign: 'center', animation: 'fadeIn 0.5s ease', background: 'var(--bg-card)', border: '1px solid var(--glass-border)' }}>
                 <div style={{ fontSize: '64px', marginBottom: '24px' }}>⏳</div>
-                <h3 style={{ fontSize: '24px', fontWeight: '900', color: '#f8fafc' }}>No Available Slots</h3>
-                <p style={{ color: '#94a3b8', maxWidth: '400px', margin: '16px auto' }}>All services for this location have either concluded for the day or are fully booked. Please check other branches or return tomorrow.</p>
+                <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)' }}>No Available Slots</h3>
+                <p style={{ color: 'var(--text-muted)', maxWidth: '400px', margin: '16px auto' }}>All services for this location have either concluded for the day or are fully booked. Please check other branches or return tomorrow.</p>
             </div>
         );
     }
@@ -33,47 +33,47 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
         const loadColor = live.waiting_count > 8 ? '#ef4444' : (live.waiting_count > 3 ? '#f59e0b' : '#10b981');
 
         return (
-            <div key={sched.schedule_id} className="glass-card dash-card glass-hover" style={{ padding: '0', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.4s', background: 'rgba(15,23,42,0.7)', backdropFilter: 'blur(20px)' }}>
+            <div key={sched.schedule_id} className="glass-card dash-card glass-hover" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--glass-border)', transition: 'all 0.4s', background: 'var(--bg-card)', backdropFilter: 'blur(20px)' }}>
                 {/* Status Bar */}
-                <div style={{ height: '6px', background: isToday ? 'linear-gradient(90deg, #3b82f6, #8b5cf6)' : '#64748b' }} />
+                <div style={{ height: '6px', background: isToday ? 'var(--grad-primary)' : 'var(--text-muted)' }} />
 
                 <div className="schedule-card-inner" style={{ padding: '24px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                                <h3 style={{ fontSize: '22px', fontWeight: '900', color: '#f8fafc', margin: 0, textTransform: 'capitalize' }}>{sched.title}</h3>
+                                <h3 style={{ fontSize: '22px', fontWeight: '900', color: 'var(--text-main)', margin: 0, textTransform: 'capitalize' }}>{sched.title}</h3>
                                 {!isToday && (
-                                    <span style={{ padding: '4px 8px', background: 'rgba(255,255,255,0.1)', color: '#e2e8f0', borderRadius: '8px', fontSize: '11px', fontWeight: '800' }}>
+                                    <span style={{ padding: '4px 8px', background: 'var(--glass-bg)', color: 'var(--text-main)', borderRadius: '8px', fontSize: '11px', fontWeight: '800' }}>
                                         {sched.date}
                                     </span>
                                 )}
                             </div>
-                            <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <p style={{ fontSize: '14px', color: 'var(--text-muted)', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                 🕒 {sched.start_time} - {sched.end_time}
                             </p>
                         </div>
-                        <div className="card-icon-box" style={{ background: 'rgba(255,255,255,0.05)', fontSize: '28px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '12px' }}>
+                        <div className="card-icon-box" style={{ background: 'var(--glass-bg)', fontSize: '28px', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '12px' }}>
                             📋
                         </div>
                     </div>
 
                     {/* Live Intel Panel */}
-                    <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '20px', padding: '20px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.04)' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.5)', borderRadius: '20px', padding: '20px', marginBottom: '24px', border: '1px solid var(--glass-border)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: isToday ? '16px' : '0' }}>
                             <div>
-                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>
+                                <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>
                                     {isToday ? 'Now Serving' : 'Availability'}
                                 </div>
-                                <div style={{ fontSize: '24px', fontWeight: '900', color: isToday ? '#60a5fa' : '#94a3b8', lineHeight: 1 }}>
+                                <div style={{ fontSize: '24px', fontWeight: '900', color: isToday ? 'var(--primary-dark)' : 'var(--text-muted)', lineHeight: 1 }}>
                                     {isToday ? `#${live.serving_number || '--'}` : 'Upcoming'}
                                 </div>
                             </div>
                             <div style={{ textAlign: 'right' }}>
-                                <div style={{ fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>
+                                <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>
                                     Available
                                 </div>
-                                <div style={{ fontSize: '24px', fontWeight: '900', color: '#f1f5f9', lineHeight: 1 }}>
-                                    {sched.available_tokens} <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '600' }}>slots</span>
+                                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', lineHeight: 1 }}>
+                                    {sched.available_tokens} <span style={{ fontSize: '14px', color: 'var(--text-muted)', fontWeight: '600' }}>slots</span>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
                 <div style={{ animation: 'fadeInDown 0.6s ease' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                         <span style={{ fontSize: '24px' }}>⚡</span>
-                        <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#f8fafc', margin: 0 }}>Today's Live Sessions</h2>
+                        <h2 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', margin: 0 }}>Today's Live Sessions</h2>
                     </div>
                     <div className="schedule-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                         {todaySchedules.map(s => renderScheduleCard(s, true))}
@@ -129,7 +129,7 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
                 <div style={{ animation: 'fadeInDown 0.6s ease 0.2s', animationFillMode: 'both' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                         <span style={{ fontSize: '24px' }}>📅</span>
-                        <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#f8fafc', margin: 0 }}>Upcoming Sessions</h2>
+                        <h2 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', margin: 0 }}>Upcoming Sessions</h2>
                     </div>
                     <div className="schedule-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                         {upcomingSchedules.map(s => renderScheduleCard(s, false))}

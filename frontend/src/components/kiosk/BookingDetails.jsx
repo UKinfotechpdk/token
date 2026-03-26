@@ -35,9 +35,9 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
     };
 
     const inputStyle = (field) => ({
-        background: 'rgba(30, 41, 59, 0.6)',
-        border: `1.5px solid ${errors[field] ? '#f87171' : 'rgba(255,255,255,0.12)'}`,
-        color: '#f1f5f9',
+        background: 'var(--glass-bg)',
+        border: `1.5px solid ${errors[field] ? '#f87171' : 'var(--glass-border)'}`,
+        color: 'var(--text-main)',
         fontSize: '16px',
         padding: '16px 20px',
         borderRadius: '14px',
@@ -52,7 +52,7 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
     const labelStyle = {
         display: 'block', fontWeight: '700', fontSize: '12px',
         textTransform: 'uppercase', letterSpacing: '1px',
-        color: '#cbd5e1', marginBottom: '8px'
+        color: 'var(--text-muted)', marginBottom: '8px'
     };
     const errStyle = {
         color: '#f87171', fontSize: '12px', marginTop: '6px',
@@ -63,11 +63,11 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) clamp(260px,30%,340px)', gap: '32px', alignItems: 'start', animation: 'fadeIn 0.5s ease' }}>
 
             {/* ─── Form Card ─── */}
-            <div className="glass-card" style={{ padding: 'clamp(24px,4vw,48px)', borderRadius: '28px' }}>
-                <h2 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: '900', color: '#f8fafc', marginBottom: '8px' }}>
+            <div className="glass-card" style={{ padding: 'clamp(24px,4vw,48px)', borderRadius: '28px', background: 'var(--bg-card)', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-md)' }}>
+                <h2 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: '900', color: 'var(--text-main)', marginBottom: '8px' }}>
                     Customer Information
                 </h2>
-                <p style={{ color: '#94a3b8', marginBottom: '32px', fontSize: '15px' }}>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '32px', fontSize: '15px' }}>
                     Fill in the details below to secure your spot in the queue.
                 </p>
 
@@ -119,13 +119,13 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
                     {/* Mobile Number with +91 */}
                     <div>
                         <label style={labelStyle}>Mobile Number</label>
-                        <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: '14px', overflow: 'hidden', border: `1.5px solid ${errors.contact ? '#f87171' : 'rgba(255,255,255,0.12)'}`, boxShadow: errors.contact ? '0 0 0 3px rgba(248,113,113,0.15)' : 'none' }}>
-                            <div style={{ padding: '0 16px', background: 'rgba(37,99,235,0.2)', display: 'flex', alignItems: 'center', fontWeight: '800', color: '#93c5fd', fontSize: '15px', flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.1)' }}>
+                        <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: '14px', overflow: 'hidden', border: `1.5px solid ${errors.contact ? '#f87171' : 'var(--glass-border)'}`, boxShadow: errors.contact ? '0 0 0 3px rgba(248,113,113,0.15)' : 'none' }}>
+                            <div style={{ padding: '0 16px', background: 'rgba(197, 173, 237, 0.2)', display: 'flex', alignItems: 'center', fontWeight: '800', color: 'var(--primary-dark)', fontSize: '15px', flexShrink: 0, borderRight: '1px solid var(--glass-border)' }}>
                                 🇮🇳 +91
                             </div>
                             <input
                                 type="tel"
-                                style={{ flex: 1, background: 'rgba(30,41,59,0.6)', border: 'none', color: '#f1f5f9', fontSize: '16px', padding: '16px 20px', outline: 'none', fontFamily: 'inherit', minWidth: 0 }}
+                                style={{ flex: 1, background: 'var(--glass-bg)', border: 'none', color: 'var(--text-main)', fontSize: '16px', padding: '16px 20px', outline: 'none', fontFamily: 'inherit', minWidth: 0 }}
                                 value={(formData.contact || '').replace(/\D/g, '')}
                                 onChange={handlePhone}
                                 placeholder="10-digit mobile number"
@@ -134,7 +134,7 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
                         </div>
                         {errors.contact
                             ? <div style={errStyle}>⚠ {errors.contact}</div>
-                            : <div style={{ color: '#64748b', fontSize: '12px', marginTop: '6px' }}>
+                            : <div style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '6px' }}>
                                 {(formData.contact || '').replace(/\D/g, '').length}/10 digits entered
                             </div>
                         }
@@ -168,9 +168,9 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <button
                         onClick={onCancel}
-                        style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '13px', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline', padding: '4px 8px' }}
-                        onMouseOver={e => e.currentTarget.style.color = '#94a3b8'}
-                        onMouseOut={e => e.currentTarget.style.color = '#64748b'}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline', padding: '4px 8px' }}
+                        onMouseOver={e => e.currentTarget.style.color = 'var(--text-main)'}
+                        onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
                     >
                         ↩ Back to Dashboard
                     </button>
@@ -179,7 +179,7 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
 
             {/* ─── Sidebar ─── */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div style={{ background: 'linear-gradient(135deg,#2563eb 0%,#4f46e5 100%)', color: 'white', padding: '28px', borderRadius: '24px', boxShadow: '0 15px 35px rgba(37,99,235,0.3)' }}>
+                <div style={{ background: 'var(--grad-primary)', color: 'white', padding: '28px', borderRadius: '24px', boxShadow: '0 15px 35px rgba(197, 173, 237, 0.4)' }}>
                     <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', opacity: 0.85, marginBottom: '20px', letterSpacing: '1.5px' }}>Queue Live Status</div>
                     <div style={{ marginBottom: '24px' }}>
                         <div style={{ fontSize: '13px', opacity: 0.9, marginBottom: '4px' }}>Est. Waiting Time</div>
@@ -197,9 +197,9 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
                     </div>
                 </div>
 
-                <div className="glass-card" style={{ padding: '24px', borderRadius: '20px', border: '1px solid rgba(37,99,235,0.2)' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '800', color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Safety Note</div>
-                    <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.7, margin: 0 }}>
+                <div className="glass-card" style={{ padding: '24px', borderRadius: '20px', border: '1px solid var(--glass-border)', background: 'var(--bg-card)' }}>
+                    <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--primary-dark)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Safety Note</div>
+                    <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, margin: 0 }}>
                         Please ensure your mobile number is correct to receive status updates.
                     </p>
                 </div>

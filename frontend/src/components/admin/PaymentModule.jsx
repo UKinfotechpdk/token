@@ -83,7 +83,7 @@ export default function PaymentModule({ onToast, onNavigate }) {
                     <button className="btn btn-secondary" style={{ padding: '10px 20px', borderRadius: '14px', fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => onNavigate('dashboard')}>
                         <span>🏠</span> Back
                     </button>
-                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'white', letterSpacing: '-0.5px' }}>Financial Reports</h2>
+                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'var(--text-main)', letterSpacing: '-0.5px' }}>Financial Reports</h2>
                 </div>
             </div>
 
@@ -177,25 +177,25 @@ export default function PaymentModule({ onToast, onNavigate }) {
                 {scheduleDetails && (
                     <div className="glass-card-premium meta-info-card">
                         <div className="card-header" style={{ marginBottom: '24px' }}>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: 900, margin: 0, color: 'white' }}>Service Meta</h3>
+                            <h3 style={{ fontSize: '1.25rem', fontWeight: 900, margin: 0, color: 'var(--text-main)' }}>Service Meta</h3>
                             <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>Core configuration for this queue</p>
                         </div>
                         <div className="meta-list" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                            <div className="meta-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <div className="meta-item" style={{ background: 'var(--glass-bg)', padding: '16px', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
                                 <div className="meta-label" style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>Branch</div>
-                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'white' }}>{scheduleDetails.branch_name}</div>
+                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'var(--text-main)' }}>{scheduleDetails.branch_name}</div>
                             </div>
-                            <div className="meta-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <div className="meta-item" style={{ background: 'var(--glass-bg)', padding: '16px', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
                                 <div className="meta-label" style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>Provider</div>
-                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'white' }}>{scheduleDetails.consultant_name || 'Generic'}</div>
+                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'var(--text-main)' }}>{scheduleDetails.consultant_name || 'Generic'}</div>
                             </div>
-                            <div className="meta-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <div className="meta-item" style={{ background: 'var(--glass-bg)', padding: '16px', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
                                 <div className="meta-label" style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>Window</div>
-                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'white' }}>{scheduleDetails.start_time} - {scheduleDetails.end_time}</div>
+                                <div className="meta-value" style={{ fontWeight: 800, fontSize: '15px', marginTop: '4px', color: 'var(--text-main)' }}>{scheduleDetails.start_time} - {scheduleDetails.end_time}</div>
                             </div>
-                            <div className="meta-item" style={{ background: 'rgba(37, 99, 235, 0.1)', padding: '16px', borderRadius: '16px', border: '1px solid rgba(37, 99, 235, 0.2)' }}>
-                                <div className="meta-label" style={{ fontSize: '10px', color: 'var(--primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>Series</div>
-                                <div className="meta-value" style={{ fontWeight: 900, fontSize: '15px', marginTop: '4px', color: 'white' }}>{scheduleDetails.token_series}-Series</div>
+                            <div className="meta-item" style={{ background: 'rgba(197, 173, 237, 0.12)', padding: '16px', borderRadius: '16px', border: '1px solid var(--glass-border)' }}>
+                                <div className="meta-label" style={{ fontSize: '10px', color: 'var(--primary-dark)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.5px' }}>Series</div>
+                                <div className="meta-value" style={{ fontWeight: 900, fontSize: '15px', marginTop: '4px', color: 'var(--text-main)' }}>{scheduleDetails.token_series}-Series</div>
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@ export default function PaymentModule({ onToast, onNavigate }) {
                     <div className="stat-mini-card-premium">
                         <div style={{ fontSize: '24px', marginBottom: '8px' }}>📊</div>
                         <div style={{ fontSize: '10px', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Capacity</div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'white', marginTop: '4px' }}>{scheduleDetails.token_count}</div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', marginTop: '4px' }}>{scheduleDetails.token_count}</div>
                     </div>
                     <div className="stat-mini-card-premium">
                         <div style={{ fontSize: '24px', marginBottom: '8px' }}>✅</div>
@@ -229,10 +229,10 @@ export default function PaymentModule({ onToast, onNavigate }) {
 
             {selectedScheduleId && scheduleDetails ? (
                 <div className="glass-card-premium table-container-card" style={{ padding: 0, overflow: 'hidden' }}>
-                    <div className="card-header-flex" style={{ padding: '24px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)' }}>
+                    <div className="card-header-flex" style={{ padding: '24px 32px', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--glass-bg)' }}>
                         <div className="status-indicator" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                             <div className="pulse-dot" style={{ width: '12px', height: '12px', background: 'var(--secondary)', borderRadius: '50%', boxShadow: '0 0 12px var(--secondary)' }}></div>
-                            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>Live Token Distribution</h3>
+                            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-main)' }}>Live Token Distribution</h3>
                         </div>
                         <button className="btn btn-secondary" style={{ borderRadius: '12px', padding: '10px 20px', fontSize: '13px', fontWeight: 800 }} onClick={() => fetchScheduleDetails(selectedScheduleId)}>🔄 Refresh Data</button>
                     </div>
@@ -240,11 +240,11 @@ export default function PaymentModule({ onToast, onNavigate }) {
                         <table className="token-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead>
                                 <tr>
-                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid rgba(255,255,255,0.08)' }}>Token</th>
-                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid rgba(255,255,255,0.08)' }}>Visitor Info</th>
-                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid rgba(255,255,255,0.08)' }}>Status</th>
-                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid rgba(255,255,255,0.08)' }}>Scheduled Slot</th>
-                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'right', borderBottom: '2px solid rgba(255,255,255,0.08)' }}>Payment</th>
+                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid var(--glass-border)' }}>Token</th>
+                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid var(--glass-border)' }}>Visitor Info</th>
+                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid var(--glass-border)' }}>Status</th>
+                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left', borderBottom: '2px solid var(--glass-border)' }}>Scheduled Slot</th>
+                                    <th style={{ padding: '20px 32px', fontSize: '11px', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'right', borderBottom: '2px solid var(--glass-border)' }}>Payment</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -262,16 +262,16 @@ export default function PaymentModule({ onToast, onNavigate }) {
                                     return (
                                         <tr key={token.token_id} className="token-row" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'background 0.2s ease' }}>
                                             <td style={{ padding: '20px 32px' }}>
-                                                <div style={{ width: '45px', height: '45px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontWeight: 900, border: '1px solid rgba(255,255,255,0.1)', color: 'var(--primary)', justifyContent: 'center' }}>{token.token_number}</div>
+                                                <div style={{ width: '45px', height: '45px', background: 'var(--glass-bg)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontWeight: 900, border: '1px solid var(--glass-border)', color: 'var(--primary)', justifyContent: 'center' }}>{token.token_number}</div>
                                             </td>
                                             <td style={{ padding: '20px 32px' }}>
                                                 {token.customer_name ? (
                                                     <div>
-                                                        <div style={{ fontWeight: 800, fontSize: '15px', color: 'white' }}>{token.customer_name}</div>
+                                                        <div style={{ fontWeight: 800, fontSize: '15px', color: 'var(--text-main)' }}>{token.customer_name}</div>
                                                         <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>Ref: {token.reason || 'Service Booking'}</div>
                                                     </div>
                                                 ) : (
-                                                    <div style={{ color: 'rgba(255,255,255,0.2)', fontStyle: 'italic', fontSize: '14px' }}>Waiting for booking...</div>
+                                                    <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '14px' }}>Waiting for booking...</div>
                                                 )}
                                             </td>
                                             <td style={{ padding: '20px 32px' }}>
@@ -280,7 +280,7 @@ export default function PaymentModule({ onToast, onNavigate }) {
                                                 </div>
                                             </td>
                                             <td style={{ padding: '20px 32px' }}>
-                                                <div style={{ fontWeight: 700, fontSize: '14px', color: 'white' }}>{token.time_slot}</div>
+                                                <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-main)' }}>{token.time_slot}</div>
                                                 <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Auto-assigned</div>
                                             </td>
                                             <td style={{ padding: '20px 32px', textAlign: 'right' }}>

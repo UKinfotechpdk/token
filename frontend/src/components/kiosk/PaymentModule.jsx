@@ -11,12 +11,12 @@ export default function PaymentModule({ formData, onUpdate, onConfirm, onBack, s
 
     return (
         <div style={{ maxWidth: '600px', margin: '0 auto', animation: 'fadeIn 0.5s ease' }}>
-            <div className="glass-card" style={{ padding: 'clamp(28px,4vw,48px)', borderRadius: '28px', background: 'rgba(15,23,42,0.7)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div className="glass-card" style={{ padding: 'clamp(28px,4vw,48px)', borderRadius: '28px', background: 'var(--bg-card)', backdropFilter: 'blur(20px)', border: '1px solid var(--glass-border)' }}>
 
-                <h2 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: '900', color: '#f8fafc', marginBottom: '10px', textAlign: 'center' }}>
+                <h2 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: '900', color: 'var(--text-main)', marginBottom: '10px', textAlign: 'center' }}>
                     🔒 Secure Payment
                 </h2>
-                <p style={{ color: '#64748b', marginBottom: '36px', textAlign: 'center', fontSize: '15px' }}>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '36px', textAlign: 'center', fontSize: '15px' }}>
                     Choose your preferred payment method to finalize booking.
                 </p>
 
@@ -34,19 +34,19 @@ export default function PaymentModule({ formData, onUpdate, onConfirm, onBack, s
                                     textAlign: 'center',
                                     cursor: 'pointer',
                                     transition: 'all 0.25s ease',
-                                    background: isActive ? 'rgba(37,99,235,0.15)' : 'rgba(30,41,59,0.6)',
-                                    border: `2px solid ${isActive ? '#3b82f6' : 'rgba(255,255,255,0.08)'}`,
-                                    boxShadow: isActive ? '0 0 24px rgba(37,99,235,0.25)' : 'none',
+                                    background: isActive ? 'rgba(197, 173, 237, 0.2)' : 'var(--glass-bg)',
+                                    border: `2px solid ${isActive ? 'var(--primary)' : 'var(--glass-border)'}`,
+                                    boxShadow: isActive ? '0 0 24px rgba(197, 173, 237, 0.3)' : 'var(--shadow-sm)',
                                     transform: isActive ? 'translateY(-2px)' : 'none',
                                 }}
-                                onMouseOver={e => !isActive && (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)')}
-                                onMouseOut={e => !isActive && (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+                                onMouseOver={e => !isActive && (e.currentTarget.style.borderColor = 'var(--primary-dark)')}
+                                onMouseOut={e => !isActive && (e.currentTarget.style.borderColor = 'var(--glass-border)')}
                             >
                                 <div style={{ fontSize: '34px', marginBottom: '12px' }}>{icon}</div>
-                                <div style={{ fontWeight: '800', color: isActive ? '#93c5fd' : '#e2e8f0', fontSize: '15px', marginBottom: '4px' }}>{label}</div>
-                                <div style={{ fontSize: '12px', color: '#64748b' }}>{sub}</div>
+                                <div style={{ fontWeight: '800', color: isActive ? 'var(--primary-dark)' : 'var(--text-main)', fontSize: '15px', marginBottom: '4px' }}>{label}</div>
+                                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{sub}</div>
                                 {isActive && (
-                                    <div style={{ marginTop: '10px', display: 'inline-block', background: 'rgba(59,130,246,0.2)', color: '#60a5fa', fontSize: '11px', fontWeight: '800', padding: '3px 10px', borderRadius: '999px', border: '1px solid rgba(96,165,250,0.4)' }}>
+                                    <div style={{ marginTop: '10px', display: 'inline-block', background: 'rgba(197, 173, 237, 0.3)', color: 'var(--primary-dark)', fontSize: '11px', fontWeight: '800', padding: '3px 10px', borderRadius: '999px', border: '1px solid rgba(197, 173, 237, 0.5)' }}>
                                         ✓ Selected
                                     </div>
                                 )}
@@ -56,21 +56,21 @@ export default function PaymentModule({ formData, onUpdate, onConfirm, onBack, s
                 </div>
 
                 {/* Order Summary */}
-                <div style={{ background: 'rgba(30,41,59,0.5)', padding: '24px', borderRadius: '18px', marginBottom: '32px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#475569', marginBottom: '16px' }}>
+                <div style={{ background: 'var(--glass-bg)', padding: '24px', borderRadius: '18px', marginBottom: '32px', border: '1px solid var(--glass-border)' }}>
+                    <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text-muted)', marginBottom: '16px' }}>
                         Order Summary
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <span style={{ color: '#94a3b8', fontWeight: '600' }}>Service Fee</span>
-                        <span style={{ color: '#e2e8f0', fontWeight: '700' }}>₹{fee}</span>
+                        <span style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Service Fee</span>
+                        <span style={{ color: 'var(--text-main)', fontWeight: '700' }}>₹{fee}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                        <span style={{ color: '#94a3b8', fontWeight: '600' }}>Processing Fee</span>
-                        <span style={{ color: '#e2e8f0', fontWeight: '700' }}>₹0</span>
+                        <span style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Processing Fee</span>
+                        <span style={{ color: 'var(--text-main)', fontWeight: '700' }}>₹0</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                        <span style={{ fontSize: '17px', fontWeight: '900', color: '#f1f5f9' }}>Total Amount</span>
-                        <span style={{ fontSize: '20px', fontWeight: '900', color: '#60a5fa' }}>₹{fee}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid var(--glass-border)' }}>
+                        <span style={{ fontSize: '17px', fontWeight: '900', color: 'var(--text-main)' }}>Total Amount</span>
+                        <span style={{ fontSize: '20px', fontWeight: '900', color: 'var(--primary-dark)' }}>₹{fee}</span>
                     </div>
                 </div>
 

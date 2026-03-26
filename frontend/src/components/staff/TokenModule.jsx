@@ -32,34 +32,34 @@ export default function TokenModule({
     const ScheduleDetail = () => (
         <div className="glass-card" style={{
             padding: '24px 40px', marginBottom: '32px',
-            background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(15, 23, 42, 0.6))',
+            background: 'var(--bg-card)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             flexWrap: 'wrap', gap: '20px', backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(37, 99, 235, 0.2)',
+            border: '1px solid var(--glass-border)',
             borderRadius: '24px',
-            boxShadow: '0 20px 50px -15px rgba(0,0,0,0.5)'
+            boxShadow: 'var(--shadow-sm)'
         }}>
             <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap' }}>
                 <div style={{ textAlign: 'left' }}>
-                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary)', marginBottom: '4px' }}>Service</div>
-                    <div className="card-label" style={{ fontSize: '18px', fontWeight: '950' }}>{selectedSched.service_name || 'General'}</div>
+                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary-dark)', marginBottom: '4px' }}>Service</div>
+                    <div className="card-label" style={{ fontSize: '18px', fontWeight: '950', color: 'var(--text-main)' }}>{selectedSched.service_name || 'General'}</div>
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary)', marginBottom: '4px' }}>Time Slot</div>
-                    <div style={{ fontSize: '18px', fontWeight: '950', color: expired ? 'var(--danger)' : '#ffffff' }}>
+                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary-dark)', marginBottom: '4px' }}>Time Slot</div>
+                    <div style={{ fontSize: '18px', fontWeight: '950', color: expired ? 'var(--danger)' : 'var(--text-main)' }}>
                         {selectedSched.start_time} - {selectedSched.end_time}
                         {expired && <span style={{ marginLeft: '12px', color: 'var(--danger)', fontSize: '12px', background: 'rgba(239, 68, 68, 0.1)', padding: '4px 8px', borderRadius: '4px' }}>(EXPIRED)</span>}
                     </div>
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary)', marginBottom: '4px' }}>Capacity</div>
-                    <div className="card-label" style={{ fontSize: '18px', fontWeight: '950' }}>{selectedSched.token_count} Tokens</div>
+                    <div className="card-meta" style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: '900', letterSpacing: '1.5px', color: 'var(--primary-dark)', marginBottom: '4px' }}>Capacity</div>
+                    <div className="card-label" style={{ fontSize: '18px', fontWeight: '950', color: 'var(--text-main)' }}>{selectedSched.token_count} Tokens</div>
                 </div>
             </div>
             <button className="btn btn-secondary btn-sm" onClick={onBack} style={{
                 borderRadius: '16px', padding: '12px 24px',
-                background: 'rgba(255, 255, 255, 0.05)', color: '#ffffff !important',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'var(--glass-bg)', color: 'var(--text-main) !important',
+                border: '1px solid var(--glass-border)',
                 fontWeight: '900', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px'
             }}>
                 Change Schedule
@@ -84,7 +84,7 @@ export default function TokenModule({
                     boxShadow: `0 15px 35px -5px ${stat.shadow}, inset 0 2px 4px rgba(255,255,255,0.3)`,
                     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                     transform: 'translateZ(0)',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    border: '1px solid var(--glass-border)'
                 }}>
                     <div style={{
                         fontSize: '11px', textTransform: 'uppercase', fontWeight: '950',
@@ -107,9 +107,9 @@ export default function TokenModule({
             {/* Now Serving Highlight */}
             <div className="glass-card" style={{
                 background: currentServing
-                    ? 'linear-gradient(135deg, #0f172a, #1e293b, #0f172a)' // Deep rich slate
-                    : 'rgba(255, 255, 255, 0.02)', // Minimal glass for standby
-                border: currentServing ? '1px solid rgba(255,255,255,0.1)' : '1px solid var(--glass-border)',
+                    ? 'var(--grad-primary)'
+                    : 'var(--bg-card)',
+                border: '1px solid var(--glass-border)',
                 padding: '56px 48px',
                 marginBottom: '40px',
                 display: 'flex',
@@ -117,28 +117,29 @@ export default function TokenModule({
                 alignItems: 'center',
                 textAlign: 'center',
                 gap: '32px',
-                color: 'white',
-                boxShadow: currentServing ? '0 40px 80px -20px rgba(0,0,0,0.6), 0 0 40px rgba(37, 99, 235, 0.1)' : 'none',
+                color: 'var(--text-main)',
+                boxShadow: currentServing ? 'var(--shadow-lg)' : 'none',
                 position: 'relative',
                 overflow: 'hidden',
                 borderRadius: '40px',
                 backdropFilter: 'blur(25px)'
             }}>
                 <div style={{ zIndex: 1 }}>
-                    <div style={{ fontSize: '15px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '5px', color: currentServing ? 'var(--secondary)' : 'rgba(255,255,255,0.3)', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '15px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '5px', color: currentServing ? 'var(--primary-dark)' : 'var(--text-muted)', marginBottom: '16px' }}>
                         {currentServing ? '🎯 Now Serving' : '📭 Currently Idle'}
                     </div>
                     <div style={{
                         fontSize: '160px', fontWeight: '950', lineHeight: 1, letterSpacing: '-10px',
-                        filter: currentServing ? 'drop-shadow(0 0 30px rgba(255,255,255,0.2))' : 'grayscale(1)',
-                        opacity: currentServing ? 1 : 0.05,
-                        transition: 'all 0.5s ease'
+                        filter: currentServing ? 'drop-shadow(0 0 30px rgba(197, 173, 237, 0.4))' : 'grayscale(1)',
+                        opacity: currentServing ? 1 : 0.1,
+                        transition: 'all 0.5s ease',
+                        color: 'var(--text-main)'
                     }}>
                         {currentServing ? currentServing.token_number : '--'}
                     </div>
                     {currentServing?.customer_name && (
-                        <div style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(10px)', padding: '14px 40px', borderRadius: '20px', marginTop: '32px', fontSize: '22px', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <span style={{ fontSize: '24px' }}>👤</span> {currentServing.customer_name}
+                        <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(10px)', padding: '14px 40px', borderRadius: '20px', marginTop: '32px', fontSize: '22px', fontWeight: '900', display: 'inline-flex', alignItems: 'center', gap: '12px', border: '1px solid var(--glass-border)' }}>
+                            <span style={{ fontSize: '24px' }}>👤</span> <span style={{ color: 'var(--text-main)' }}>{currentServing.customer_name}</span>
                         </div>
                     )}
                 </div>
@@ -149,8 +150,8 @@ export default function TokenModule({
                             // STAFF VIEW: Read-only badge — no action buttons
                             <div style={{
                                 padding: '14px 32px', borderRadius: '20px',
-                                background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
-                                color: 'rgba(255,255,255,0.7)', fontWeight: '800', fontSize: '15px',
+                                background: 'var(--glass-bg)', border: '1px solid var(--glass-border)',
+                                color: 'var(--text-muted)', fontWeight: '800', fontSize: '15px',
                                 display: 'flex', alignItems: 'center', gap: '10px'
                             }}>
                                 <span>👁️</span> Viewing Live — Managed by Consultant
@@ -172,7 +173,7 @@ export default function TokenModule({
                                     onClick={() => onUpdate(currentServing.token_id, 'Completed')}
                                     style={{
                                         height: '72px', padding: '0 32px', fontSize: '18px', fontWeight: '800',
-                                        background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '24px',
+                                        background: 'var(--glass-bg)', color: 'var(--text-main)', border: '1px solid var(--glass-border)', borderRadius: '24px',
                                         cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px'
                                     }}>
                                     <span>⚠️</span> No Show
@@ -180,7 +181,7 @@ export default function TokenModule({
                             </>
                         )
                     ) : (
-                        <div style={{ color: 'rgba(255, 255, 255, 0.4)', fontWeight: '700', fontSize: '15px', letterSpacing: '0.5px' }}>
+                        <div style={{ color: 'var(--text-muted)', fontWeight: '700', fontSize: '15px', letterSpacing: '0.5px' }}>
                             Counter is Currently Standing By
                         </div>
                     )}

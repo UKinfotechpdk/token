@@ -146,7 +146,7 @@ export default function BranchModule({ onToast, onNavigate }) {
                     <button className="btn btn-secondary" style={{ padding: '10px 20px', borderRadius: '14px', fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => onNavigate('dashboard')}>
                         <span>🏠</span> Back
                     </button>
-                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'white', letterSpacing: '-0.5px' }}>Manage Branches</h2>
+                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'var(--text-main)', letterSpacing: '-0.5px' }}>Manage Branches</h2>
                 </div>
                 <button className="btn btn-primary" style={{ padding: '12px 24px', borderRadius: '14px', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleAddNew}>
                     <span style={{ fontSize: '20px', lineHeight: 1 }}>+</span> Add New Branch

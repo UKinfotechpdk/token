@@ -371,7 +371,7 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                             const bookedTokens = schedTokens.filter(t => t.status === 'Booked');
 
                             return (
-                                <div className="glass-card" style={{ background: 'var(--bg-surface)', padding: 0, overflow: 'hidden', border: '2px solid var(--primary)', boxShadow: '0 20px 50px rgba(37, 99, 235, 0.15)' }}>
+                                <div className="glass-card" style={{ background: 'var(--bg-card)', padding: 0, overflow: 'hidden', border: '2px solid var(--primary)', boxShadow: 'var(--shadow-lg)' }}>
                                     <div style={{ display: 'flex', alignItems: 'stretch', flexWrap: 'wrap' }}>
                                         {/* Left: Focused Service Panel */}
                                         <div style={{ flex: '1', minWidth: '0', width: '100%', padding: '32px', borderRight: '1px solid var(--glass-border)', boxSizing: 'border-box' }}>
@@ -420,7 +420,7 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                             })()}
 
                                             <div style={{ background: 'var(--bg-input)', padding: '40px 24px', borderRadius: '24px', marginBottom: '24px', textAlign: 'center', border: '1px solid var(--glass-border)', position: 'relative' }}>
-                                                <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--slate-400)', letterSpacing: '1.5px', marginBottom: '16px' }}>Currently Serving</div>
+                                                <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '1.5px', marginBottom: '16px' }}>Currently Serving</div>
                                                 <div style={{ fontSize: '96px', fontWeight: '900', color: 'var(--primary)', lineHeight: 0.8, marginBottom: '20px', textShadow: '0 4px 15px rgba(37, 99, 235, 0.25)' }}>
                                                     {servingToken ? servingToken.token_number : '--'}
                                                 </div>
@@ -488,7 +488,7 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                         </div>
 
                                         {/* Right: Live Queue Panel */}
-                                        <div style={{ flex: '1.4', minWidth: '0', width: '100%', padding: '32px', background: 'var(--bg-surface)', boxSizing: 'border-box' }}>
+                                        <div style={{ flex: '1.4', minWidth: '0', width: '100%', padding: '32px', background: 'var(--bg-input)', boxSizing: 'border-box' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                                                 <div>
                                                     <h4 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--text-main)' }}>Waiting Queue ({bookedTokens.length})</h4>
@@ -567,7 +567,7 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                                         key={sched.schedule_id}
                                                         className="glass-card"
                                                         style={{
-                                                            background: isPast ? 'rgba(15, 23, 42, 0.4)' : 'var(--bg-card)',
+                                                            background: isPast ? 'var(--bg-surface)' : 'var(--bg-card)',
                                                             padding: '24px', position: 'relative',
                                                             border: '1px solid var(--glass-border)',
                                                             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -595,8 +595,8 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                                             <div style={{
                                                                 position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                                zIndex: 10, pointerEvents: 'auto', // Capture clicks to prevent anything underneath
-                                                                background: 'rgba(15, 23, 42, 0.65)', backdropFilter: 'blur(3px)'
+                                                                zIndex: 10, pointerEvents: 'auto',
+                                                                background: 'rgba(197, 173, 237, 0.3)', backdropFilter: 'blur(3px)'
                                                             }}
                                                                 onClick={(e) => e.stopPropagation()}
                                                             >

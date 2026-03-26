@@ -248,7 +248,7 @@ export default function ScheduleModule({ onToast, onNavigate }) {
                     <button className="btn btn-secondary" style={{ padding: '10px 20px', borderRadius: '14px', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => onNavigate('dashboard')}>
                         <span>🏠</span> Back
                     </button>
-                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'white', letterSpacing: '-0.5px' }}>Manage Schedules</h2>
+                    <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: 950, color: 'var(--text-main)', letterSpacing: '-0.5px' }}>Manage Schedules</h2>
                 </div>
                 <button className="btn btn-primary" style={{ padding: '12px 24px', borderRadius: '14px', display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleAddNew}>
                     <span style={{ fontSize: '20px', lineHeight: 1 }}>+</span> Create New Schedule
@@ -296,14 +296,14 @@ export default function ScheduleModule({ onToast, onNavigate }) {
                     {/* Config Panel (collapsible) */}
                     {showConfig && (
                         <div style={{
-                            background: 'rgba(255,255,255,0.03)',
-                            border: '1px solid rgba(255,255,255,0.1)',
+                            background: 'var(--glass-bg)',
+                            border: '1px solid var(--glass-border)',
                             borderRadius: 16,
                             padding: 24,
                             marginBottom: 24,
                             animation: 'expandDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
                         }}>
-                            <div style={{ fontSize: 14, fontWeight: 800, color: 'white', marginBottom: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-main)', marginBottom: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 ⚙️ Token Series Configuration
                             </div>
                             <div className="form-grid">

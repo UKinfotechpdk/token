@@ -123,9 +123,9 @@ export default function StaffDailySummary({ staff, onToast, onNavigate }) {
                 <button
                     onClick={() => onNavigate('dashboard')}
                     className="btn btn-secondary"
-                    style={{ padding: '10px 20px', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', width: isMobile ? '100%' : 'auto', justifyContent: isMobile ? 'center' : 'flex-start', transition: 'all 0.2s' }}
-                    onMouseOver={e => { e.currentTarget.style.color = '#f8fafc'; e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
-                    onMouseOut={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+                    style={{ padding: '10px 20px', borderRadius: '12px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', width: isMobile ? '100%' : 'auto', justifyContent: isMobile ? 'center' : 'flex-start', transition: 'all 0.2s' }}
+                    onMouseOver={e => { e.currentTarget.style.color = 'var(--text-main)'; e.currentTarget.style.background = 'rgba(197, 173, 237, 0.1)'; }}
+                    onMouseOut={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'var(--glass-bg)'; }}
                 >
                     🏠 Back to Dashboard
                 </button>
@@ -140,10 +140,10 @@ export default function StaffDailySummary({ staff, onToast, onNavigate }) {
                 </button>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '16px', marginLeft: isMobile ? '0' : 'auto' }}>
-                    <div style={{ fontSize: isMobile ? '20px' : '28px', background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)', width: isMobile ? '40px' : '52px', height: isMobile ? '40px' : '52px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>📊</div>
+                    <div style={{ fontSize: isMobile ? '20px' : '28px', background: 'rgba(197, 173, 237, 0.15)', border: '1px solid rgba(197, 173, 237, 0.3)', width: isMobile ? '40px' : '52px', height: isMobile ? '40px' : '52px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>📊</div>
                     <div>
-                        <h2 style={{ fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: '900', margin: 0, color: '#f8fafc', lineHeight: 1.1, whiteSpace: 'nowrap' }}>Daily Summary</h2>
-                        <p style={{ margin: '2px 0 0 0', color: '#94a3b8', fontSize: isMobile ? '11px' : '14px' }}>Branch Stats Overview</p>
+                        <h2 style={{ fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: '900', margin: 0, color: 'var(--text-main)', lineHeight: 1.1, whiteSpace: 'nowrap' }}>Daily Summary</h2>
+                        <p style={{ margin: '2px 0 0 0', color: 'var(--text-muted)', fontSize: isMobile ? '11px' : '14px' }}>Branch Stats Overview</p>
                     </div>
                 </div>
             </div>
@@ -157,19 +157,19 @@ export default function StaffDailySummary({ staff, onToast, onNavigate }) {
                 <>
                     {/* Top Stats Row */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-                        <StatCard icon="🎫" label="Total Capacity" value={summaryData.totalCapacity} color="#94a3b8" bg="rgba(148,163,184,0.1)" border="rgba(148,163,184,0.2)" isMobile={isMobile} />
-                        <StatCard icon="📅" label="Tokens Booked" value={summaryData.totalBooked} color="#60a5fa" bg="rgba(59,130,246,0.15)" border="rgba(59,130,246,0.3)" isMobile={isMobile} />
-                        <StatCard icon="⏳" label="Currently Waiting" value={summaryData.totalWaiting} color="#fcd34d" bg="rgba(245,158,11,0.15)" border="rgba(245,158,11,0.3)" isMobile={isMobile} />
-                        <StatCard icon="✅" label="Served Today" value={summaryData.totalServed} color="#34d399" bg="rgba(16,185,129,0.15)" border="rgba(16,185,129,0.3)" isMobile={isMobile} />
-                        <StatCard icon="💰" label="Est. Revenue" value={`Rs. ${summaryData.estimatedRevenue}`} color="#2dd4bf" bg="rgba(20,184,166,0.15)" border="rgba(20,184,166,0.3)" isMobile={isMobile} />
+                        <StatCard icon="🎫" label="Total Capacity" value={summaryData.totalCapacity} color="var(--primary-dark)" bg="var(--glass-bg)" border="var(--glass-border)" isMobile={isMobile} />
+                        <StatCard icon="📅" label="Tokens Booked" value={summaryData.totalBooked} color="#4338ca" bg="rgba(197, 173, 237, 0.15)" border="rgba(197, 173, 237, 0.3)" isMobile={isMobile} />
+                        <StatCard icon="⏳" label="Currently Waiting" value={summaryData.totalWaiting} color="#d97706" bg="rgba(252,211,77,0.15)" border="rgba(252,211,77,0.3)" isMobile={isMobile} />
+                        <StatCard icon="✅" label="Served Today" value={summaryData.totalServed} color="#059669" bg="rgba(52,211,153,0.15)" border="rgba(52,211,153,0.3)" isMobile={isMobile} />
+                        <StatCard icon="💰" label="Est. Revenue" value={`Rs. ${summaryData.estimatedRevenue}`} color="#0d9488" bg="rgba(45,212,191,0.15)" border="rgba(45,212,191,0.3)" isMobile={isMobile} />
                     </div>
 
                     {/* Active Sessions List */}
-                    <div className="glass-card dash-card" style={{ borderRadius: '24px', padding: 'clamp(20px, 4vw, 32px)', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(16px)' }}>
-                        <h3 style={{ fontSize: '1.25rem', fontWeight: '900', marginBottom: '24px', color: '#f8fafc' }}>Active Counter Sessions</h3>
+                    <div className="glass-card dash-card" style={{ borderRadius: '24px', padding: 'clamp(20px, 4vw, 32px)', border: '1px solid var(--glass-border)', background: 'var(--bg-card)', backdropFilter: 'blur(16px)' }}>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '900', marginBottom: '24px', color: 'var(--text-main)' }}>Active Counter Sessions</h3>
 
                         {schedules.length === 0 ? (
-                            <p style={{ color: '#64748b', textAlign: 'center', padding: '20px' }}>No active sessions found for today.</p>
+                            <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>No active sessions found for today.</p>
                         ) : (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                 {schedules.map(s => (
@@ -179,27 +179,27 @@ export default function StaffDailySummary({ staff, onToast, onNavigate }) {
                                         justifyContent: 'space-between',
                                         alignItems: isMobile ? 'flex-start' : 'center',
                                         padding: isMobile ? '16px' : '16px 24px',
-                                        background: 'rgba(255,255,255,0.03)',
+                                        background: 'rgba(255,255,255,0.4)',
                                         borderRadius: '16px',
-                                        border: '1px solid rgba(255,255,255,0.05)',
+                                        border: '1px solid var(--glass-border)',
                                         gap: isMobile ? '12px' : '0',
                                         transition: 'all 0.2s'
                                     }}
-                                        onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-                                        onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                                        onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.8)'}
+                                        onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.4)'}
                                     >
                                         <div>
-                                            <div style={{ fontWeight: '800', color: '#e2e8f0', fontSize: '16px', marginBottom: '6px' }}>
+                                            <div style={{ fontWeight: '800', color: 'var(--text-main)', fontSize: '16px', marginBottom: '6px' }}>
                                                 {(s.consultant_name || s.service_name || 'General Service').replace(/^Dr\.\s*/i, '')}
                                             </div>
-                                            <div style={{ fontSize: '13px', color: '#94a3b8', display: 'flex', gap: '16px', fontWeight: '600' }}>
+                                            <div style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', gap: '16px', fontWeight: '600' }}>
                                                 <span>🕓 {s.start_time} - {s.end_time}</span>
                                                 <span>🎟️ {s.token_count} max</span>
                                             </div>
                                         </div>
-                                        <div style={{ textAlign: isMobile ? 'left' : 'right', width: isMobile ? '100%' : 'auto', borderTop: isMobile ? '1px solid rgba(255,255,255,0.08)' : 'none', paddingTop: isMobile ? '12px' : '0' }}>
-                                            <div style={{ fontWeight: '900', color: '#60a5fa', fontSize: '18px', letterSpacing: '0.5px' }}>Series {s.token_series}</div>
-                                            <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>Fee: Rs. {s.fees}</div>
+                                        <div style={{ textAlign: isMobile ? 'left' : 'right', width: isMobile ? '100%' : 'auto', borderTop: isMobile ? '1px solid var(--glass-border)' : 'none', paddingTop: isMobile ? '12px' : '0' }}>
+                                            <div style={{ fontWeight: '900', color: 'var(--primary-dark)', fontSize: '18px', letterSpacing: '0.5px' }}>Series {s.token_series}</div>
+                                            <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600' }}>Fee: Rs. {s.fees}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -224,10 +224,10 @@ function StatCard({ icon, label, value, color, bg, border, isMobile }) {
             onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}
         >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: isMobile ? '20px' : '24px', background: 'rgba(0,0,0,0.2)', width: isMobile ? '36px' : '44px', height: isMobile ? '36px' : '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px' }}>
+                <span style={{ fontSize: isMobile ? '20px' : '24px', background: 'var(--glass-bg)', width: isMobile ? '36px' : '44px', height: isMobile ? '36px' : '44px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px' }}>
                     {icon}
                 </span>
-                <span style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: '800', color: '#e2e8f0', letterSpacing: '0.5px' }}>
+                <span style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '0.5px' }}>
                     {label}
                 </span>
             </div>

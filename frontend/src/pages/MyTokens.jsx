@@ -68,12 +68,12 @@ export default function MyTokens({ onBack }) {
                                     </div>
                                 </div>
                                 <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '32px', fontWeight: '900', color: 'white' }}>#{token.token_number}</div>
-                                    <div style={{ fontSize: '12px', color: 'var(--secondary)' }}>{token.time_slot}</div>
+                                    <div style={{ fontSize: '32px', fontWeight: '900', color: 'var(--text-main)' }}>#{token.token_number}</div>
+                                    <div style={{ fontSize: '12px', color: 'var(--primary-dark)' }}>{token.time_slot}</div>
                                 </div>
                             </div>
 
-                            <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                                         📅 {token.schedule?.date}

@@ -43,7 +43,7 @@ export default function ScheduleDetailPage({ schedule, onBack, onToast }) {
                 }}>
                     <span>←</span> Back to Dashboard
                 </button>
-                <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: '950', color: 'white', letterSpacing: '-1px' }}>
+                <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: '950', color: 'var(--text-main)', letterSpacing: '-1px' }}>
                     Schedule Insights
                 </h2>
             </div>
@@ -67,7 +67,7 @@ export default function ScheduleDetailPage({ schedule, onBack, onToast }) {
                         }}>
                             ✨ Core Metadata
                         </div>
-                        <h3 style={{ margin: 0, fontSize: '32px', fontWeight: '950', color: 'white', letterSpacing: '-1px' }}>
+                        <h3 style={{ margin: 0, fontSize: '32px', fontWeight: '950', color: 'var(--text-main)', letterSpacing: '-1px' }}>
                             {schedule.service_name || 'General Service'}
                         </h3>
                     </div>
@@ -104,14 +104,14 @@ export default function ScheduleDetailPage({ schedule, onBack, onToast }) {
             <style>{`
                 .meta-item-box {
                     padding: 20px;
-                    background: rgba(255, 255, 255, 0.03);
+                    background: var(--glass-bg);
                     border-radius: 20px;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
                     transition: all 0.3s ease;
                 }
                 .meta-item-box:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                    border-color: rgba(255, 255, 255, 0.1);
+                    background: var(--bg-input);
+                    border-color: var(--primary);
                     transform: translateY(-2px);
                 }
                 @media (max-width: 1024px) {
@@ -140,7 +140,7 @@ function MetaItem({ label, value, isHighlight }) {
             <div style={{
                 fontSize: '16px',
                 fontWeight: '800',
-                color: isHighlight ? '#10b981' : 'white'
+                color: isHighlight ? 'var(--success)' : 'var(--text-main)'
             }}>{value}</div>
         </div>
     );
@@ -150,16 +150,16 @@ function StatBox({ label, value, icon, color, themeColor }) {
     return (
         <div className="glass-card" style={{
             padding: '24px',
-            background: 'rgba(255, 255, 255, 0.08)',
+            background: 'var(--bg-card)',
             borderRadius: '24px',
-            border: '2px solid rgba(255, 255, 255, 0.15)',
+            border: '1px solid var(--glass-border)',
             textAlign: 'center',
             transition: 'all 0.3s ease',
             boxShadow: `0 10px 30px ${themeColor}15`
         }}>
             <div style={{ fontSize: '32px', marginBottom: '12px' }}>{icon}</div>
-            <div style={{ fontSize: '12px', fontWeight: '1000', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>{label}</div>
-            <div style={{ fontSize: '36px', fontWeight: '1000', color: color, textShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>{value}</div>
+            <div style={{ fontSize: '12px', fontWeight: '1000', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>{label}</div>
+            <div style={{ fontSize: '36px', fontWeight: '1000', color: 'var(--text-main)' }}>{value}</div>
         </div>
     );
 }

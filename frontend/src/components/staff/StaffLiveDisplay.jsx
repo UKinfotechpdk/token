@@ -98,7 +98,7 @@ export default function StaffLiveDisplay({ onNavigate }) {
             {/* --- Premium Header Section --- */}
             <div className="live-header-container" style={{
                 padding: '20px 40px',
-                background: 'rgba(15, 23, 42, 0.8)',
+                background: 'var(--bg-card)',
                 backdropFilter: 'blur(20px)',
                 borderBottom: '1px solid var(--glass-border)',
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -108,8 +108,8 @@ export default function StaffLiveDisplay({ onNavigate }) {
                 <div className="live-header-brand" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     <div style={{ width: '8px', height: '40px', background: 'var(--primary)', borderRadius: '4px' }}></div>
                     <div>
-                        <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '900', letterSpacing: '-1.5px', color: '#ffffff', textTransform: 'uppercase' }}>
-                            Live Token <span style={{ color: 'var(--primary)' }}>Status</span>
+                        <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '900', letterSpacing: '-1.5px', color: 'var(--text-main)', textTransform: 'uppercase' }}>
+                            Live Token <span style={{ color: 'var(--primary-dark)' }}>Status</span>
                         </h1>
                         {schedules.length > 0 && (
                             <div className="monitoring-tag" style={{ fontSize: '13px', fontWeight: '800', color: 'var(--slate-400)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '2px' }}>
@@ -121,8 +121,8 @@ export default function StaffLiveDisplay({ onNavigate }) {
 
                 <div className="live-header-right" style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
                     <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--slate-400)', marginBottom: '4px' }}>Network Time</div>
-                        <div className="live-time-text" style={{ fontSize: '28px', fontWeight: '950', color: '#ffffff', letterSpacing: '1px', fontFamily: 'monospace' }}>
+                        <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '4px' }}>Network Time</div>
+                        <div className="live-time-text" style={{ fontSize: '28px', fontWeight: '950', color: 'var(--text-main)', letterSpacing: '1px', fontFamily: 'monospace' }}>
                             {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                         </div>
                     </div>
@@ -153,8 +153,8 @@ export default function StaffLiveDisplay({ onNavigate }) {
                 {schedules.length === 0 ? (
                     <div style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.3, marginTop: '20vh' }}>
                         <div style={{ fontSize: '100px', marginBottom: '32px' }}>📡</div>
-                        <h2 style={{ fontSize: '36px', fontWeight: '900', color: '#ffffff' }}>Waiting for active sessions...</h2>
-                        <p style={{ color: 'var(--slate-400)', fontSize: '20px' }}>Real-time updates will appear here when a counter opens.</p>
+                        <h2 style={{ fontSize: '36px', fontWeight: '900', color: 'var(--text-main)' }}>Waiting for active sessions...</h2>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '20px' }}>Real-time updates will appear here when a counter opens.</p>
                     </div>
                 ) : (
                     schedules.map(sched => {
@@ -169,7 +169,7 @@ export default function StaffLiveDisplay({ onNavigate }) {
 
                         return (
                             <div key={sched.schedule_id} className="live-display-card" style={{
-                                background: isPast ? 'rgba(16, 185, 129, 0.05)' : 'var(--bg-surface)',
+                                background: isPast ? 'rgba(16, 185, 129, 0.05)' : 'var(--bg-card)',
                                 backdropFilter: 'blur(25px)',
                                 borderRadius: '40px',
                                 padding: '40px',
@@ -212,27 +212,27 @@ export default function StaffLiveDisplay({ onNavigate }) {
                                 {/* Card Header */}
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                        <div style={{ fontSize: '28px', background: 'rgba(255, 255, 255, 0.05)', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>
+                                        <div style={{ fontSize: '28px', background: 'var(--glass-bg)', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px' }}>
                                             {getServiceIcon(sched.service_name)}
                                         </div>
-                                        <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                        <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--primary-dark)', textTransform: 'uppercase', letterSpacing: '1px' }}>
                                             {formatServiceName(sched.service_name)}
                                         </div>
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--slate-400)', marginBottom: '4px' }}>Session Hours</div>
-                                        <div style={{ fontSize: '20px', fontWeight: '800', color: '#ffffff' }}>{sched.start_time} - {sched.end_time}</div>
+                                        <div style={{ fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)', marginBottom: '4px' }}>Session Hours</div>
+                                        <div style={{ fontSize: '20px', fontWeight: '800', color: 'var(--text-main)' }}>{sched.start_time} - {sched.end_time}</div>
                                     </div>
                                 </div>
 
                                 {/* Branch Badge */}
-                                <div style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', marginTop: '-12px' }}>
+                                <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', marginTop: '-12px' }}>
                                     {sched.branch_name}
                                 </div>
 
                                 {/* Main "Now Serving" Area */}
                                 <div style={{
-                                    background: 'rgba(255, 255, 255, 0.03)',
+                                    background: 'var(--glass-bg)',
                                     padding: '50px 30px',
                                     borderRadius: '32px',
                                     display: 'flex',
@@ -243,7 +243,7 @@ export default function StaffLiveDisplay({ onNavigate }) {
                                     position: 'relative',
                                     gap: '24px'
                                 }}>
-                                    <div style={{ fontSize: '14px', fontWeight: '950', textTransform: 'uppercase', letterSpacing: '5px', color: 'var(--slate-400)' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: '950', textTransform: 'uppercase', letterSpacing: '5px', color: 'var(--text-muted)' }}>
                                         Now Serving
                                     </div>
 
@@ -251,7 +251,7 @@ export default function StaffLiveDisplay({ onNavigate }) {
                                         fontSize: 'clamp(80px, 12vw, 160px)',
                                         fontWeight: '950',
                                         lineHeight: 0.9,
-                                        color: servingToken ? 'var(--primary)' : 'rgba(255, 255, 255, 0.15)',
+                                        color: servingToken ? 'var(--primary-dark)' : 'var(--text-muted)',
                                         letterSpacing: '-2px',
                                         transition: 'all 0.5s ease'
                                     }}>
@@ -264,10 +264,10 @@ export default function StaffLiveDisplay({ onNavigate }) {
                                         textTransform: 'uppercase',
                                         letterSpacing: '3px',
                                         color: servingToken ? 'var(--success)' : 'var(--text-muted)',
-                                        background: servingToken ? 'rgba(16, 185, 129, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                                        background: servingToken ? 'rgba(16, 185, 129, 0.15)' : 'var(--glass-bg)',
                                         padding: '12px 32px',
                                         borderRadius: '16px',
-                                        border: servingToken ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)'
+                                        border: servingToken ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid var(--glass-border)'
                                     }}>
                                         {servingToken ? 'Please Proceed' : 'Standing By'}
                                     </div>
@@ -275,19 +275,19 @@ export default function StaffLiveDisplay({ onNavigate }) {
 
                                 {/* Waiting Chip Section */}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
-                                    <div style={{ fontSize: '14px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--slate-400)' }}>Waiting:</div>
+                                    <div style={{ fontSize: '14px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--text-muted)' }}>Waiting:</div>
                                     <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                                         {nextTokens.length > 0 ? nextTokens.map(nt => (
                                             <div key={nt.token_id} style={{
-                                                padding: '12px 24px', borderRadius: '18px', background: 'rgba(255, 255, 255, 0.05)',
-                                                border: '1px solid var(--glass-border)', fontSize: '22px', fontWeight: '950', color: '#ffffff',
+                                                padding: '12px 24px', borderRadius: '18px', background: 'var(--glass-bg)',
+                                                border: '1px solid var(--glass-border)', fontSize: '22px', fontWeight: '950', color: 'var(--text-main)',
                                                 boxShadow: 'var(--shadow-sm)',
                                                 transition: 'all 0.2s'
                                             }}>
                                                 {nt.token_number}
                                             </div>
                                         )) : (
-                                            <div style={{ fontSize: '16px', color: 'var(--slate-400)', fontStyle: 'italic', fontWeight: '700' }}>No pending tokens</div>
+                                            <div style={{ fontSize: '16px', color: 'var(--text-muted)', fontStyle: 'italic', fontWeight: '700' }}>No pending tokens</div>
                                         )}
                                     </div>
                                 </div>
