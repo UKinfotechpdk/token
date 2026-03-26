@@ -29,9 +29,9 @@
   --text-muted: #6c757d;
 
   /* Elevated Glass */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-blur: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.95);
+  --glass-blur: 20px;
 
   /* Soft Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -105,7 +105,8 @@ body {
     radial-gradient(ellipse at 94% 85%, rgba(99, 175, 233, 0.70) 0%, transparent 50%),
     radial-gradient(ellipse at 5% 90%, rgba(162, 210, 255, 0.60) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 50%, rgba(235, 98, 212, 0.25) 0%, transparent 60%),
-    linear-gradient(145deg, #b99cf3 0%, #e08dd7 30%, #f0a8c8 55%, #8fcbf8 80%, #75b7f2 100%);
+    linear-gradient(145deg, #b99cf3 0%, #e08dd7 30%, #f0a8c8 55%, #8fcbf8 80%, #75b7f2 100%),
+    radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.05) 100%);
   background-attachment: fixed;
   color: var(--text-main);
   line-height: 1.5;
