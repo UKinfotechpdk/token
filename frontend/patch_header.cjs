@@ -1,0 +1,37 @@
+const fs = require('fs');
+const cssPath = 'C:\\Users\\LENOVO\\Downloads\\token_system_admin\\token_system_admin\\frontend\\src\\index.css';
+let css = fs.readFileSync(cssPath, 'utf8');
+
+const newHeaderCss = `
+/* Premium Colorful Navbar Override */
+.top-header, header.hero-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25) !important;
+  border-bottom: none !important;
+}
+
+/* Ensure all text inside the header becomes pure white */
+.top-header h1, .top-header h2, .top-header span, .top-header p,
+header.hero-gradient h1, header.hero-gradient h2, header.hero-gradient span, header.hero-gradient p {
+  color: #ffffff !important;
+}
+
+/* Make header buttons translucent white glass instead of standard secondary */
+.top-header .btn-secondary, .top-header .sign-out-btn,
+header.hero-gradient .btn-secondary, header.hero-gradient .logout-btn {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.top-header .btn-secondary:hover, .top-header .sign-out-btn:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+`;
+
+fs.writeFileSync(cssPath, css + '\n' + newHeaderCss);
+console.log('Successfully patched navbar CSS!');
