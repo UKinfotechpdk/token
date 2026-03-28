@@ -11,6 +11,7 @@ export default function StaffTokenSystem({ staff, onToast, onNavigate }) {
     const [loading, setLoading] = useState(true);
     const [calling, setCalling] = useState(false);
     const [processingId, setProcessingId] = useState(null);
+    const [finishedMap, setFinishedMap] = useState({});
     const [onlineBookingAlert, setOnlineBookingAlert] = useState(null);
     const prevBookedCountRef = useRef(null);
     const selfActionRef = useRef(false);
@@ -36,6 +37,10 @@ export default function StaffTokenSystem({ staff, onToast, onNavigate }) {
             prevBookedCountRef.current = newBookedCount;
             selfActionRef.current = false;
             setTokens(newTokens);
+
+            // Also update finishedMap for the current schedule
+            const allDone = newTokens.length > 0 && newTokens.every(t => ['Completed', 'No-Show', 'Cancelled'].includes(t.status));
+            setFinishedMap(prev => ({ ...prev, [schedId]: allDone }));
         } catch (err) {
             onToast('Failed to load tokens', 'error');
         } finally {
@@ -57,6 +62,19 @@ export default function StaffTokenSystem({ staff, onToast, onNavigate }) {
                 const matchesBranch = !staff?.branch_name || s.branch_name === staff.branch_name;
                 return isToday && matchesBranch;
             });
+
+            // Build finished map for all filtered schedules
+            const fMap = {};
+            await Promise.all(filtered.map(async (s) => {
+                try {
+                    const tRes = await api.getTokens(s.schedule_id);
+                    const tkns = tRes.data;
+                    fMap[s.schedule_id] = tkns.length > 0 && tkns.every(t => ['Completed', 'No-Show', 'Cancelled'].includes(t.status));
+                } catch (e) {
+                    fMap[s.schedule_id] = false;
+                }
+            }));
+            setFinishedMap(fMap);
 
             // Sort by start_time
             const sorted = filtered.sort((a, b) => {
@@ -202,6 +220,7 @@ export default function StaffTokenSystem({ staff, onToast, onNavigate }) {
                     selectedSched={selectedSched}
                     onSelect={handleSelectSchedule}
                     branchName={staff.branch_name || 'Your Branch'}
+                    finishedMap={finishedMap}
                 />
             )}
         </div>

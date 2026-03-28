@@ -35,181 +35,314 @@ export default function BookingDetails({ formData, onUpdate, onNext, onCancel, q
     };
 
     const inputStyle = (field) => ({
-        background: 'var(--glass-bg)',
-        border: `1.5px solid ${errors[field] ? '#f87171' : 'var(--glass-border)'}`,
-        color: 'var(--text-main)',
-        fontSize: '16px',
-        padding: '16px 20px',
-        borderRadius: '14px',
+        background: '#f8fafc',
+        border: `2px solid ${errors[field] ? '#ef4444' : '#cbd5e1'}`,
+        color: '#000000',
+        fontSize: '15.5px',
+        padding: '14px 18px',
+        borderRadius: '12px',
         width: '100%',
         outline: 'none',
-        transition: 'all 0.2s',
+        transition: 'border-color 0.2s, box-shadow 0.2s',
         boxSizing: 'border-box',
         fontFamily: 'inherit',
-        boxShadow: errors[field] ? '0 0 0 3px rgba(248,113,113,0.15)' : 'none',
+        boxShadow: errors[field] ? '0 0 0 3px rgba(239,68,68,0.12)' : 'none',
     });
 
     const labelStyle = {
-        display: 'block', fontWeight: '700', fontSize: '12px',
-        textTransform: 'uppercase', letterSpacing: '1px',
-        color: 'var(--text-muted)', marginBottom: '8px'
+        display: 'block', fontWeight: '700', fontSize: '11px',
+        textTransform: 'uppercase', letterSpacing: '1.2px',
+        color: '#000000', marginBottom: '6px'
     };
-    const errStyle = {
-        color: '#f87171', fontSize: '12px', marginTop: '6px',
-        fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px'
-    };
+
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) clamp(260px,30%,340px)', gap: '32px', alignItems: 'start', animation: 'fadeIn 0.5s ease' }}>
-
-            {/* ─── Form Card ─── */}
-            <div className="glass-card" style={{ padding: 'clamp(24px,4vw,48px)', borderRadius: '28px', background: 'var(--bg-card)', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-md)' }}>
-                <h2 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: '900', color: 'var(--text-main)', marginBottom: '8px' }}>
-                    Customer Information
-                </h2>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '32px', fontSize: '15px' }}>
-                    Fill in the details below to secure your spot in the queue.
-                </p>
-
-                <div style={{ display: 'grid', gap: '20px' }}>
-
-                    {/* Full Name */}
-                    <div>
-                        <label style={labelStyle}>Full Name</label>
-                        <input
-                            style={inputStyle('name')}
-                            value={formData.name}
-                            onChange={e => { onUpdate({ name: e.target.value }); if (errors.name) setErrors(p => ({ ...p, name: null })); }}
-                            placeholder="Enter your full name"
-                            autoFocus
-                        />
-                        {errors.name && <div style={errStyle}>⚠ {errors.name}</div>}
-                    </div>
-
-                    {/* Age + Gender */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                        <div>
-                            <label style={labelStyle}>Age</label>
-                            <input
-                                type="number"
-                                style={inputStyle('age')}
-                                value={formData.age}
-                                onChange={e => { onUpdate({ age: e.target.value }); if (errors.age) setErrors(p => ({ ...p, age: null })); }}
-                                placeholder="Years"
-                                min="1" max="120"
-                            />
-                            {errors.age && <div style={errStyle}>⚠ {errors.age}</div>}
-                        </div>
-                        <div>
-                            <label style={labelStyle}>Gender</label>
-                            <select
-                                style={{ ...inputStyle('gender'), appearance: 'none' }}
-                                value={formData.gender}
-                                onChange={e => { onUpdate({ gender: e.target.value }); if (errors.gender) setErrors(p => ({ ...p, gender: null })); }}
-                            >
-                                <option value="">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            {errors.gender && <div style={errStyle}>⚠ {errors.gender}</div>}
-                        </div>
-                    </div>
-
-                    {/* Mobile Number with +91 */}
-                    <div>
-                        <label style={labelStyle}>Mobile Number</label>
-                        <div style={{ display: 'flex', alignItems: 'stretch', borderRadius: '14px', overflow: 'hidden', border: `1.5px solid ${errors.contact ? '#f87171' : 'var(--glass-border)'}`, boxShadow: errors.contact ? '0 0 0 3px rgba(248,113,113,0.15)' : 'none' }}>
-                            <div style={{ padding: '0 16px', background: 'rgba(197, 173, 237, 0.2)', display: 'flex', alignItems: 'center', fontWeight: '800', color: 'var(--primary-dark)', fontSize: '15px', flexShrink: 0, borderRight: '1px solid var(--glass-border)' }}>
-                                🇮🇳 +91
-                            </div>
-                            <input
-                                type="tel"
-                                style={{ flex: 1, background: 'var(--glass-bg)', border: 'none', color: 'var(--text-main)', fontSize: '16px', padding: '16px 20px', outline: 'none', fontFamily: 'inherit', minWidth: 0 }}
-                                value={(formData.contact || '').replace(/\D/g, '')}
-                                onChange={handlePhone}
-                                placeholder="10-digit mobile number"
-                                maxLength={10}
-                            />
-                        </div>
-                        {errors.contact
-                            ? <div style={errStyle}>⚠ {errors.contact}</div>
-                            : <div style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '6px' }}>
-                                {(formData.contact || '').replace(/\D/g, '').length}/10 digits entered
-                            </div>
-                        }
-                    </div>
-
-                    {/* Reason */}
-                    <div>
-                        <label style={labelStyle}>
-                            Reason for Visit <span style={{ opacity: 0.5, fontWeight: 500, textTransform: 'none' }}>(optional)</span>
-                        </label>
-                        <textarea
-                            style={{ ...inputStyle('reason'), minHeight: '100px', resize: 'vertical' }}
-                            value={formData.reason}
-                            onChange={e => onUpdate({ reason: e.target.value })}
-                            placeholder="Briefly describe the service needed"
-                        />
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div style={{ display: 'flex', gap: '16px', marginTop: '40px', flexWrap: 'wrap' }}>
-                    <button className="btn btn-secondary" style={{ flex: '1 1 120px', height: '56px', borderRadius: '14px', fontWeight: '700' }} onClick={onCancel}>
-                        ← Back
-                    </button>
-                    <button className="btn btn-primary" style={{ flex: '2 1 200px', height: '56px', fontSize: '17px', fontWeight: '900', borderRadius: '14px' }} onClick={handleNext}>
-                        Review &amp; Pay →
-                    </button>
-                </div>
-
-                {/* Back to Dashboard */}
-                <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                    <button
-                        onClick={onCancel}
-                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '13px', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline', padding: '4px 8px' }}
-                        onMouseOver={e => e.currentTarget.style.color = 'var(--text-main)'}
-                        onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
-                    >
-                        ↩ Back to Dashboard
-                    </button>
-                </div>
-            </div>
-
-            {/* ─── Sidebar ─── */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div style={{ background: 'var(--grad-primary)', color: 'white', padding: '28px', borderRadius: '24px', boxShadow: '0 15px 35px rgba(197, 173, 237, 0.4)' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', opacity: 0.85, marginBottom: '20px', letterSpacing: '1.5px' }}>Queue Live Status</div>
-                    <div style={{ marginBottom: '24px' }}>
-                        <div style={{ fontSize: '13px', opacity: 0.9, marginBottom: '4px' }}>Est. Waiting Time</div>
-                        <div style={{ fontSize: '52px', fontWeight: '900', lineHeight: 1 }}>{waitTime} <span style={{ fontSize: '20px', fontWeight: 400 }}>min</span></div>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                        <div>
-                            <div style={{ fontSize: '11px', opacity: 0.8, textTransform: 'uppercase', marginBottom: '4px' }}>Waiting</div>
-                            <div style={{ fontSize: '22px', fontWeight: '800' }}>{live.waiting_count}</div>
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '11px', opacity: 0.8, textTransform: 'uppercase', marginBottom: '4px' }}>Active</div>
-                            <div style={{ fontSize: '22px', fontWeight: '800' }}>#{live.serving_number}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="glass-card" style={{ padding: '24px', borderRadius: '20px', border: '1px solid var(--glass-border)', background: 'var(--bg-card)' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--primary-dark)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>Safety Note</div>
-                    <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, margin: 0 }}>
-                        Please ensure your mobile number is correct to receive status updates.
-                    </p>
-                </div>
-            </div>
-
+        <>
             <style>{`
+                .booking-layout {
+                    display: grid;
+                    grid-template-columns: minmax(0,1fr) clamp(240px,28%,320px);
+                    gap: 28px;
+                    align-items: start;
+                    animation: fadeIn 0.5s ease;
+                }
                 @media (max-width: 768px) {
-                    div[style*="clamp(260px"] { grid-template-columns: 1fr !important; }
+                    .booking-layout {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .booking-sidebar {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 16px;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .booking-sidebar {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+                /* Force input text visibility against global dark-theme overrides */
+                .bk-input {
+                    color: #000000 !important;
+                    background: #f8fafc !important;
+                    -webkit-text-fill-color: #000000 !important;
+                    font-weight: 700 !important;
+                }
+                .bk-input::placeholder {
+                    color: #475569 !important;
+                    -webkit-text-fill-color: #475569 !important;
+                    opacity: 1 !important;
+                    font-weight: 500 !important;
+                }
+                .bk-input:focus {
+                    border-color: #2563eb !important;
+                    background: #ffffff !important;
+                    box-shadow: 0 0 0 4px rgba(37,99,235,0.15) !important;
+                    color: #000000 !important;
+                    -webkit-text-fill-color: #000000 !important;
+                }
+                .bk-input.error:focus {
+                    border-color: #ef4444 !important;
+                    box-shadow: 0 0 0 4px rgba(239,68,68,0.1) !important;
+                }
+                /* Phone inner input */
+                .bk-phone-input {
+                    color: #000000 !important;
+                    background: transparent !important;
+                    -webkit-text-fill-color: #000000 !important;
+                    font-weight: 700 !important;
+                }
+                .bk-phone-input::placeholder {
+                    color: #475569 !important;
+                    -webkit-text-fill-color: #475569 !important;
+                    opacity: 1 !important;
+                    font-weight: 500 !important;
+                }
+                .bk-error {
+                    color: #ef4444 !important;
+                    font-size: 11.5px !important;
+                    margin-top: 6px !important;
+                    font-weight: 700 !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 4px !important;
+                    letter-spacing: 0.2px !important;
+                }
+                @media (max-width: 480px) {
+                    .age-gender-grid {
+                        grid-template-columns: 1fr !important;
+                        gap: 18px !important;
+                    }
+                    .booking-form-card {
+                        padding: 24px 16px !important;
+                    }
                 }
             `}</style>
-        </div>
+
+            <div className="booking-layout">
+
+                {/* ─── Form Card ─── */}
+                <div className="booking-form-card" style={{
+                    padding: '32px',
+                    borderRadius: '20px',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.08)'
+                }}>
+                    <h2 style={{ fontSize: '22px', fontWeight: '900', color: '#1e293b', marginBottom: '6px' }}>
+                        Customer Information
+                    </h2>
+                    <p style={{ color: '#64748b', marginBottom: '28px', fontSize: '14px' }}>
+                        Fill in the details below to secure your spot in the queue.
+                    </p>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+
+                        {/* Full Name */}
+                        <div>
+                            <label style={labelStyle}>Full Name</label>
+                            <input
+                                className={`bk-input${errors.name ? ' error' : ''}`}
+                                style={inputStyle('name')}
+                                value={formData.name}
+                                onChange={e => { onUpdate({ name: e.target.value }); if (errors.name) setErrors(p => ({ ...p, name: null })); }}
+                                placeholder="Enter your full name"
+                                autoFocus
+                            />
+                            {errors.name && <div className="bk-error">⚠ {errors.name}</div>}
+                        </div>
+
+                        {/* Age + Gender */}
+                        <div className="age-gender-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                            <div>
+                                <label style={labelStyle}>Age</label>
+                                <input
+                                    className={`bk-input${errors.age ? ' error' : ''}`}
+                                    type="number"
+                                    style={inputStyle('age')}
+                                    value={formData.age}
+                                    onChange={e => { onUpdate({ age: e.target.value }); if (errors.age) setErrors(p => ({ ...p, age: null })); }}
+                                    placeholder="Years"
+                                    min="1" max="120"
+                                />
+                                {errors.age && <div className="bk-error">⚠ {errors.age}</div>}
+                            </div>
+                            <div>
+                                <label style={labelStyle}>Gender</label>
+                                <select
+                                    className={`bk-input${errors.gender ? ' error' : ''}`}
+                                    style={{ ...inputStyle('gender'), appearance: 'none', cursor: 'pointer' }}
+                                    value={formData.gender}
+                                    onChange={e => { onUpdate({ gender: e.target.value }); if (errors.gender) setErrors(p => ({ ...p, gender: null })); }}
+                                >
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                {errors.gender && <div className="bk-error">⚠ {errors.gender}</div>}
+                            </div>
+                        </div>
+
+                        {/* Mobile Number */}
+                        <div>
+                            <label style={labelStyle}>Mobile Number</label>
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'stretch',
+                                borderRadius: '10px',
+                                overflow: 'hidden',
+                                border: `2px solid ${errors.contact ? '#ef4444' : '#cbd5e1'}`,
+                                boxShadow: errors.contact ? '0 0 0 4px rgba(239,68,68,0.08)' : 'none',
+                                background: '#f8fafc'
+                            }}>
+                                <div style={{
+                                    padding: '0 14px',
+                                    background: '#f1f5f9',
+                                    display: 'flex', alignItems: 'center',
+                                    fontWeight: '700', color: '#000000',
+                                    fontSize: '14.5px', flexShrink: 0,
+                                    borderRight: '2px solid #cbd5e1'
+                                }}>
+                                    🇮🇳 +91
+                                </div>
+                                <input
+                                    className="bk-phone-input"
+                                    type="tel"
+                                    style={{
+                                        flex: 1, background: 'transparent', border: 'none',
+                                        color: '#000000', fontSize: '15.5px',
+                                        padding: '14px 18px', outline: 'none',
+                                        fontFamily: 'inherit', minWidth: 0, width: '100%',
+                                        boxSizing: 'border-box', fontWeight: '700'
+                                    }}
+                                    value={(formData.contact || '').replace(/\D/g, '')}
+                                    onChange={handlePhone}
+                                    placeholder="10-digit mobile number"
+                                    maxLength={10}
+                                />
+                            </div>
+                            {errors.contact
+                                ? <div className="bk-error">⚠ {errors.contact}</div>
+                                : <div style={{ color: '#94a3b8', fontSize: '11px', marginTop: '5px', fontWeight: '600' }}>
+                                    {(formData.contact || '').replace(/\D/g, '').length}/10 digits entered
+                                </div>
+                            }
+                        </div>
+
+                        {/* Reason */}
+                        <div>
+                            <label style={labelStyle}>
+                                Reason for Visit <span style={{ opacity: 0.5, fontWeight: 500, textTransform: 'none', fontSize: '11px' }}>(optional)</span>
+                            </label>
+                            <textarea
+                                className="bk-input"
+                                style={{ ...inputStyle('reason'), minHeight: '90px', resize: 'vertical' }}
+                                value={formData.reason}
+                                onChange={e => onUpdate({ reason: e.target.value })}
+                                placeholder="Briefly describe the service needed"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div style={{ display: 'flex', gap: '12px', marginTop: '32px', flexWrap: 'wrap' }}>
+                        <button
+                            style={{
+                                flex: '1 1 110px', height: '52px', borderRadius: '12px', fontWeight: '700',
+                                background: '#f1f5f9', border: '1px solid #e2e8f0', color: '#475569',
+                                cursor: 'pointer', fontSize: '14px'
+                            }}
+                            onClick={onCancel}
+                        >
+                            ← Back
+                        </button>
+                        <button
+                            style={{
+                                flex: '2 1 180px', height: '52px', fontSize: '16px', fontWeight: '900',
+                                borderRadius: '12px', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+                                color: '#ffffff', border: 'none', cursor: 'pointer',
+                                boxShadow: '0 6px 18px rgba(37,99,235,0.28)'
+                            }}
+                            onClick={handleNext}
+                        >
+                            Review & Pay →
+                        </button>
+                    </div>
+
+                    <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                        <button
+                            onClick={onCancel}
+                            style={{
+                                background: 'none', border: 'none', color: '#94a3b8',
+                                fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+                                textDecoration: 'underline', padding: '4px 8px'
+                            }}
+                        >
+                            ↩ Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                {/* ─── Sidebar ─── */}
+                <div className="booking-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{
+                        background: 'linear-gradient(135deg, #2563eb, #0284c7)',
+                        color: 'white', padding: '24px',
+                        borderRadius: '18px',
+                        boxShadow: '0 10px 28px rgba(37,99,235,0.3)'
+                    }}>
+                        <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', opacity: 0.85, marginBottom: '16px', letterSpacing: '1.5px' }}>Queue Live Status</div>
+                        <div style={{ marginBottom: '20px' }}>
+                            <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '4px' }}>Est. Waiting Time</div>
+                            <div style={{ fontSize: '48px', fontWeight: '900', lineHeight: 1 }}>
+                                {waitTime} <span style={{ fontSize: '18px', fontWeight: 400 }}>min</span>
+                            </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                            <div>
+                                <div style={{ fontSize: '10px', opacity: 0.8, textTransform: 'uppercase', marginBottom: '4px' }}>Waiting</div>
+                                <div style={{ fontSize: '20px', fontWeight: '800' }}>{live.waiting_count}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontSize: '10px', opacity: 0.8, textTransform: 'uppercase', marginBottom: '4px' }}>Active</div>
+                                <div style={{ fontSize: '20px', fontWeight: '800' }}>#{live.serving_number}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{
+                        padding: '20px', borderRadius: '16px',
+                        border: '1px solid #e2e8f0', background: '#ffffff',
+                        boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
+                    }}>
+                        <div style={{ fontSize: '11px', fontWeight: '900', color: '#1e293b', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '10px' }}>Safety Note</div>
+                        <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: 1.7, margin: 0, fontWeight: '600' }}>
+                            Please ensure your mobile number is correct to receive status updates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

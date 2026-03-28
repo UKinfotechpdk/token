@@ -19,6 +19,7 @@ export default function StaffAssignToken({ staff, onToast, onNavigate }) {
     const [schedules, setSchedules] = useState([]);
     const [selectedSched, setSelectedSched] = useState(null);
     const [tokens, setTokens] = useState([]);
+    const [tokensBySchedule, setTokensBySchedule] = useState({});
 
     // Multi-step form state
     const [customerName, setCustomerName] = useState('');
@@ -50,12 +51,34 @@ export default function StaffAssignToken({ staff, onToast, onNavigate }) {
                 const isBranch = staff?.branch_id ? String(s.branch_id) === String(staff.branch_id) : true;
                 return isToday && isBranch;
             });
+
+            // Parallel fetch tokens for all of today's schedules to check completion status
+            const tksMap = {};
+            await Promise.all(todaySchedules.map(async (s) => {
+                try {
+                    const tRes = await api.getTokens(s.schedule_id);
+                    tksMap[s.schedule_id] = tRes.data;
+                } catch (e) {
+                    tksMap[s.schedule_id] = [];
+                }
+            }));
+
+            setTokensBySchedule(tksMap);
             setSchedules(todaySchedules);
         } catch (err) {
             onToast('Failed to load schedules', 'error');
         } finally {
             setLoading(false);
         }
+    };
+
+    // Check if schedule end time has passed
+    const isScheduleCompleted = (s) => {
+        if (!s.end_time) return false;
+        const [h, m] = s.end_time.split(':').map(Number);
+        const end = new Date();
+        end.setHours(h, m, 0, 0);
+        return new Date() > end;
     };
 
     const handleSelectSchedule = async (schedId) => {
@@ -212,30 +235,63 @@ export default function StaffAssignToken({ staff, onToast, onNavigate }) {
                 <div className="schedule-grid" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(240px, 1fr))', gap: isMobile ? '12px' : '20px' }}>
                     {schedules.map(s => {
                         const isActive = selectedSched?.schedule_id === s.schedule_id;
+                        const isTimePast = isScheduleCompleted(s);
+                        const schedTokens = tokensBySchedule[s.schedule_id] || [];
+                        const allTokensFinished = schedTokens.length > 0 && !schedTokens.some(t => t.status === 'Available');
+                        const completed = isTimePast || allTokensFinished;
+
                         return (
                             <div
                                 key={s.schedule_id}
-                                onClick={() => handleSelectSchedule(s.schedule_id)}
+                                onClick={() => !completed && handleSelectSchedule(s.schedule_id)}
                                 className={`glass-card ${isActive ? 'active' : ''}`}
                                 style={{
                                     padding: '24px',
-                                    cursor: 'pointer',
+                                    cursor: completed ? 'not-allowed' : 'pointer',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    border: isActive ? '2px solid var(--primary)' : '1px solid var(--glass-border)',
-                                    background: isActive ? 'white' : 'white',
-                                    boxShadow: isActive ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
-                                    transform: isActive ? 'translateY(-4px)' : 'none',
-                                    position: 'relative'
+                                    border: completed ? '1px solid #fca5a5' : isActive ? '2px solid var(--primary)' : '1px solid var(--glass-border)',
+                                    background: completed ? '#fff5f5' : isActive ? 'white' : 'white',
+                                    boxShadow: isActive && !completed ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
+                                    transform: isActive && !completed ? 'translateY(-4px)' : 'none',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                    opacity: completed ? 0.75 : 1,
                                 }}
                             >
+                                {/* COMPLETED watermark stamp */}
+                                {completed && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%) rotate(-30deg)',
+                                        fontSize: '1.6rem',
+                                        fontWeight: '900',
+                                        color: isTimePast ? '#ef4444' : 'var(--primary)',
+                                        border: `3px solid ${isTimePast ? '#ef4444' : 'var(--primary)'}`,
+                                        borderRadius: '8px',
+                                        padding: '4px 14px',
+                                        letterSpacing: '4px',
+                                        opacity: 0.22,
+                                        pointerEvents: 'none',
+                                        whiteSpace: 'nowrap',
+                                        zIndex: 10,
+                                        userSelect: 'none',
+                                    }}>
+                                        {isTimePast ? 'ENDED' : 'COMPLETED'}
+                                    </div>
+                                )}
+
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '16px' }}>
-                                    <span className="badge badge-booked" style={{ background: 'rgba(37, 99, 235, 0.1)', color: 'var(--primary)', border: 'none' }}>
-                                        📋 {s.service_name || 'General'}
+                                    <span className="badge badge-booked" style={{ background: completed ? 'rgba(239,68,68,0.08)' : 'rgba(37, 99, 235, 0.1)', color: completed ? '#dc2626' : 'var(--primary)', border: 'none' }}>
+                                        {completed ? '🔒' : '📋'} {s.service_name || 'General'}
                                     </span>
-                                    {isActive && <span style={{ fontSize: '18px' }}>✅</span>}
+                                    {isActive && !completed && <span style={{ fontSize: '18px' }}>✅</span>}
+                                    {isTimePast && <span style={{ fontSize: '11px', fontWeight: '800', color: '#dc2626', letterSpacing: '1px', opacity: 0.8 }}>SESSION ENDED</span>}
+                                    {allTokensFinished && !isTimePast && <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--primary)', letterSpacing: '1px', opacity: 0.8 }}>DONE</span>}
                                 </div>
 
-                                <h3 style={{ margin: '0 0 12px 0', fontSize: '1.25rem', fontWeight: '800', color: 'var(--slate-800)' }}>
+                                <h3 style={{ margin: '0 0 12px 0', fontSize: '1.25rem', fontWeight: '800', color: completed ? '#6b7280' : 'var(--slate-800)' }}>
                                     {s.branch_name}
                                 </h3>
 

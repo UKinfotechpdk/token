@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ScheduleSelector({ schedules, onSelect, loading, queueData }) {
+export default function ScheduleSelector({ schedules, onSelect, loading, queueData, onBack }) {
     const todayStr = new Date().toISOString().split('T')[0];
 
     const todaySchedules = schedules.filter(s => s.date === todayStr);
@@ -20,8 +20,13 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
         return (
             <div className="glass-card" style={{ padding: '80px 40px', textAlign: 'center', animation: 'fadeIn 0.5s ease', background: 'var(--bg-card)', border: '1px solid var(--glass-border)' }}>
                 <div style={{ fontSize: '64px', marginBottom: '24px' }}>⏳</div>
-                <h3 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)' }}>No Available Slots</h3>
-                <p style={{ color: 'var(--text-muted)', maxWidth: '400px', margin: '16px auto' }}>All services for this location have either concluded for the day or are fully booked. Please check other branches or return tomorrow.</p>
+                <h2 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', margin: '0 0 16px' }}>No Available Slots</h2>
+                <p style={{ color: 'var(--text-muted)', maxWidth: '400px', margin: '16px auto', fontSize: '15px', lineHeight: '1.6' }}>All services for this location have either concluded for the day or are fully booked. Please check other branches or return tomorrow.</p>
+                <div style={{ marginTop: '32px' }}>
+                    <button className="btn btn-secondary" onClick={onBack} style={{ padding: '12px 32px', borderRadius: '14px', fontWeight: '700' }}>
+                        ← Back to Locations
+                    </button>
+                </div>
             </div>
         );
     }
@@ -112,13 +117,37 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
     };
 
     return (
-        <div className="schedule-container" style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-            {todaySchedules.length > 0 && (
-                <div style={{ animation: 'fadeInDown 0.6s ease' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+        <div className="schedule-container" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            {/* Top Navigation & Header Row */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: '20px',
+                marginBottom: '10px',
+                animation: 'fadeInDown 0.6s ease'
+            }}>
+                {/* Left Side: Header */}
+                {todaySchedules.length > 0 && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <span style={{ fontSize: '24px' }}>⚡</span>
                         <h2 style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-main)', margin: 0 }}>Today's Live Sessions</h2>
                     </div>
+                )}
+
+                {/* Right Side: Button */}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={onBack}
+                        style={{ height: '48px', padding: '0 24px', borderRadius: '12px', fontWeight: '700', fontSize: '14px' }}
+                    >
+                        ← Back to Locations
+                    </button>
+                </div>
+            </div>
+
+            {todaySchedules.length > 0 && (
+                <div style={{ animation: 'fadeInDown 0.6s ease 0.1s', animationFillMode: 'both' }}>
                     <div className="schedule-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                         {todaySchedules.map(s => renderScheduleCard(s, true))}
                     </div>
@@ -136,6 +165,9 @@ export default function ScheduleSelector({ schedules, onSelect, loading, queueDa
                     </div>
                 </div>
             )}
+
+            {/* Removed redundant bottom actions - now in top header */}
+
             <style>{`
                 .schedule-grid { gap: 32px; }
                 @media (max-width: 640px) {

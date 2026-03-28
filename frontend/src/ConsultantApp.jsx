@@ -11,37 +11,49 @@ export default function ConsultantApp({ user, onLogout }) {
 
     return (
         <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            {/* Top header - Premium Glassmorphism */}
-            <header className="top-header" style={{
-                background: 'var(--bg-surface)',
-                backdropFilter: 'blur(20px)',
-                borderBottom: '1px solid var(--glass-border)',
-                padding: '16px 32px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                boxShadow: 'var(--shadow-sm)',
-                zIndex: 1000
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '24px' }}>🏢</span>
+            {/* Top header - Premium Medical Blue Navbar */}
+            <header className="top-header premium-navbar">
+                {/* Brand / Left Section */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'default' }}>
+                    <span style={{ fontSize: '26px' }}>🏢</span>
                     <div>
-                        <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-main)' }}>
-                            Service <span className="highlight" style={{ color: 'var(--primary)' }}>Portal</span>
+                        <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '800', color: '#ffffff', letterSpacing: '-0.3px' }}>
+                            Service Portal
                         </h2>
-                        <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>
-                            {user?.name || 'Staff'} | Dashboard
+                        <p style={{ margin: 0, fontSize: '11px', color: 'rgba(255,255,255,0.72)', fontWeight: '500' }}>
+                            Welcome, {user?.name || 'Consultant'} 👋
                         </p>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <div className="header-user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '10px' }}>
-                        <div className="user-avatar" style={{ width: 32, height: 32, fontSize: 13, background: 'linear-gradient(135deg, var(--primary), var(--secondary))', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', fontWeight: '800' }}>
-                            {user?.name?.charAt(0).toUpperCase()}
-                        </div>
+
+                {/* Right Section */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{
+                        width: 36, height: 36, borderRadius: '10px',
+                        background: 'rgba(255,255,255,0.15)',
+                        border: '1.5px solid rgba(255,255,255,0.3)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontWeight: '900', fontSize: '14px', color: '#ffffff'
+                    }}>
+                        {user?.name?.charAt(0).toUpperCase()}
                     </div>
-                    <button className="btn btn-primary btn-sm" onClick={onLogout} style={{ padding: '8px 20px', fontSize: '13px', borderRadius: '10px', fontWeight: '700' }}>
-                        Sign Out
+                    <button
+                        onClick={onLogout}
+                        style={{
+                            padding: '8px 20px',
+                            fontSize: '13px',
+                            borderRadius: '10px',
+                            fontWeight: '700',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: '1px solid rgba(255,255,255,0.25)',
+                            color: '#ffffff',
+                            cursor: 'pointer',
+                            transition: 'background 0.2s'
+                        }}
+                        onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.22)'}
+                        onMouseLeave={e => e.target.style.background = 'rgba(255,255,255,0.1)'}
+                    >
+                        Sign Out 🚪
                     </button>
                 </div>
             </header>

@@ -19,8 +19,10 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
     const [schedules, setSchedules] = useState([]);
     const [selectedSched, setSelectedSched] = useState(null);
     const [tokens, setTokens] = useState([]);
+    const [tokensBySchedule, setTokensBySchedule] = useState({});
     const [loading, setLoading] = useState(true);
     const [tokenToPrint, setTokenToPrint] = useState(null);
+    const [error, setError] = useState(null);
 
     const printRef = useRef();
 
@@ -28,7 +30,7 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
     const hasAutoPrinted = useRef(false);
 
     useEffect(() => {
-        fetchSchedules();
+        fetchData();
 
         // Handle auto-print if initialData was passed from StaffApp
         if (initialData?.token && initialData?.schedule && !hasAutoPrinted.current) {
@@ -46,7 +48,8 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
         }
     }, [initialData]);
 
-    const fetchSchedules = async () => {
+    const fetchData = async () => {
+        setLoading(true);
         try {
             const res = await api.getSchedules();
             const d = new Date();
@@ -57,11 +60,38 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
                 return isToday && isBranch;
             });
             setSchedules(todaySchedules);
+
+            // Fetch tokens for each today's schedule in parallel
+            const tokenPromises = todaySchedules.map(async (s) => {
+                try {
+                    const tRes = await api.getTokens(s.schedule_id);
+                    return { id: s.schedule_id, data: tRes.data };
+                } catch (e) {
+                    console.error(`Failed to fetch tokens for schedule ${s.schedule_id}`, e);
+                    return { id: s.schedule_id, data: [] };
+                }
+            });
+
+            const results = await Promise.all(tokenPromises);
+            const newTokenMap = {};
+            results.forEach(r => {
+                newTokenMap[r.id] = r.data;
+            });
+            setTokensBySchedule(newTokenMap);
         } catch (err) {
-            onToast('Failed to load schedules', 'error');
+            onToast('Failed to load system data', 'error');
         } finally {
             setLoading(false);
         }
+    };
+
+    // Check if a schedule's end time has passed
+    const isScheduleCompleted = (s) => {
+        if (!s.end_time) return false;
+        const [h, m] = s.end_time.split(':').map(Number);
+        const end = new Date();
+        end.setHours(h, m, 0, 0);
+        return new Date() > end;
     };
 
     const handleSelectSchedule = async (schedId) => {
@@ -69,8 +99,18 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
         setSelectedSched(sched);
         setTokenToPrint(null);
         setSearchTerm('');
-        if (!sched) { setTokens([]); return; }
-        await fetchTokens(sched.schedule_id);
+
+        if (!sched) {
+            setTokens([]);
+            return;
+        }
+
+        // Use pre-fetched tokens if available
+        if (tokensBySchedule[sched.schedule_id]) {
+            setTokens(tokensBySchedule[sched.schedule_id].filter(t => t.status !== 'Available'));
+        } else {
+            await fetchTokens(sched.schedule_id);
+        }
     };
 
     const fetchTokens = async (schedId) => {
@@ -123,24 +163,67 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
                     <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(240px, 1fr))', gap: isMobile ? '12px' : '16px' }}>
                         {schedules.map(s => {
                             const isActive = selectedSched?.schedule_id === s.schedule_id;
+                            const isTimePast = isScheduleCompleted(s);
+                            const schedTokens = tokensBySchedule[s.schedule_id] || [];
+                            const allTokensFinished = schedTokens.length > 0 && schedTokens.every(t => ['Completed', 'No-Show', 'Cancelled'].includes(t.status));
+                            const isFullyDone = isTimePast || allTokensFinished;
+
                             return (
                                 <div
                                     key={s.schedule_id}
-                                    onClick={() => handleSelectSchedule(s.schedule_id)}
+                                    onClick={() => !isFullyDone && handleSelectSchedule(s.schedule_id)}
                                     className={`glass-card ${isActive ? 'active' : ''}`}
                                     style={{
                                         padding: '20px',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                        border: isActive ? '2px solid var(--primary)' : '1px solid var(--glass-border)',
-                                        background: isActive ? 'rgba(37, 99, 235, 0.1)' : 'transparent',
-                                        boxShadow: isActive ? 'var(--shadow-md)' : 'none',
-                                        transform: isActive ? 'scale(1.02)' : 'none'
+                                        cursor: isFullyDone ? 'not-allowed' : 'pointer',
+                                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        border: isFullyDone ? '1px solid var(--glass-border)' : isActive ? '2px solid var(--primary)' : '1px solid var(--glass-border)',
+                                        background: isFullyDone ? 'var(--bg-card)' : isActive ? 'rgba(37, 99, 235, 0.1)' : 'transparent',
+                                        boxShadow: (isActive && !isFullyDone) ? 'var(--shadow-md)' : 'none',
+                                        transform: (isActive && !isFullyDone) ? 'translateY(-4px)' : 'none',
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        opacity: isFullyDone ? 0.7 : 1,
                                     }}
                                 >
-                                    <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '800', color: 'var(--slate-800)' }}>
-                                        {s.service_name || 'General'}
-                                    </h4>
+                                    {/* COMPLETED stamp overlay for ended or completed sessions */}
+                                    {isFullyDone && (
+                                        <div style={{
+                                            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            zIndex: 10, pointerEvents: 'auto',
+                                            background: isTimePast ? 'rgba(239, 68, 68, 0.05)' : 'rgba(37, 99, 235, 0.05)',
+                                            backdropFilter: 'blur(3px)'
+                                        }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <div style={{
+                                                border: `4px solid ${isTimePast ? 'rgba(239, 68, 68, 0.7)' : 'rgba(37, 99, 235, 0.7)'}`,
+                                                color: isTimePast ? 'rgba(239, 68, 68, 0.8)' : 'rgba(37, 99, 235, 0.8)',
+                                                padding: '8px 20px',
+                                                borderRadius: '12px',
+                                                fontSize: '22px',
+                                                fontWeight: '900',
+                                                letterSpacing: '3px',
+                                                textTransform: 'uppercase',
+                                                transform: 'rotate(-15deg)',
+                                                textShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                                userSelect: 'none',
+                                                boxShadow: `inset 0 0 15px ${isTimePast ? 'rgba(239, 68, 68, 0.1)' : 'rgba(37, 99, 235, 0.1)'}`,
+                                                background: 'rgba(255, 255, 255, 0.1)'
+                                            }}>
+                                                {isTimePast ? 'ENDED' : 'COMPLETED'}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                                        <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: isFullyDone ? 'var(--text-muted)' : 'var(--slate-800)' }}>
+                                            {s.service_name || 'General'}
+                                        </h4>
+                                        {isTimePast && <span style={{ fontSize: '10px', fontWeight: '800', color: '#dc2626', letterSpacing: '1px', opacity: 0.8 }}>ENDED</span>}
+                                        {allTokensFinished && !isTimePast && <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--primary)', letterSpacing: '1px', opacity: 0.8 }}>DONE</span>}
+                                    </div>
                                     <div style={{ fontSize: '13px', color: 'var(--slate-500)', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                         <span>📍</span> {s.branch_name}
                                     </div>
@@ -265,50 +348,52 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
             </div>
 
             {/* Print Only Area - Rendered via Portal at Body level for accuracy */}
-            {tokenToPrint && selectedSched && createPortal(
-                <div className="print-only">
-                    <div className="thermal-slip">
-                        <div style={{ fontSize: '16px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '2px' }}>TOKEN KIOSK</div>
-                        <div style={{ fontSize: '10px', borderBottom: '1px solid #000', paddingBottom: '4px', marginBottom: '10px' }}>
-                            Customer Token Slip
-                        </div>
-
-                        <div style={{ fontSize: '48px', fontWeight: '950', margin: '10px 0', lineHeight: 1 }}>
-                            {tokenToPrint.token_number}
-                        </div>
-
-                        <div style={{ textAlign: 'left', fontSize: '11px', borderTop: '1px dashed #000', paddingTop: '8px', width: '100%' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
-                                <span>DATE:</span>
-                                <strong style={{ marginLeft: 'auto' }}>{selectedSched.date}</strong>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
-                                <span>SERVICE:</span>
-                                <strong style={{ marginLeft: 'auto' }}>{selectedSched.service_name || 'General'}</strong>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
-                                <span>COUNTER:</span>
-                                <strong style={{ marginLeft: 'auto' }}>{selectedSched.branch_name}</strong>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
-                                <span>TIME:</span>
-                                <strong style={{ marginLeft: 'auto' }}>{selectedSched.start_time}-{selectedSched.end_time}</strong>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px dotted #ccc', marginTop: '6px', paddingTop: '6px', width: '100%' }}>
-                                <span>FEE:</span>
-                                <strong style={{ marginLeft: 'auto' }}>Rs. {selectedSched.fees}</strong>
+            {
+                tokenToPrint && selectedSched && createPortal(
+                    <div className="print-only">
+                        <div className="thermal-slip">
+                            <div style={{ fontSize: '16px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '2px' }}>TOKEN KIOSK</div>
+                            <div style={{ fontSize: '10px', borderBottom: '1px solid #000', paddingBottom: '4px', marginBottom: '10px' }}>
+                                Customer Token Slip
                             </div>
 
-                            <div style={{ marginTop: '12px', fontSize: '9px', textAlign: 'center', fontStyle: 'italic', borderTop: '1px solid #000', paddingTop: '8px', width: '100%' }}>
-                                Thank you for choosing us!
-                                <br />
-                                Please wait for your turn.
+                            <div style={{ fontSize: '48px', fontWeight: '950', margin: '10px 0', lineHeight: 1 }}>
+                                {tokenToPrint.token_number}
+                            </div>
+
+                            <div style={{ textAlign: 'left', fontSize: '11px', borderTop: '1px dashed #000', paddingTop: '8px', width: '100%' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
+                                    <span>DATE:</span>
+                                    <strong style={{ marginLeft: 'auto' }}>{selectedSched.date}</strong>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
+                                    <span>SERVICE:</span>
+                                    <strong style={{ marginLeft: 'auto' }}>{selectedSched.service_name || 'General'}</strong>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
+                                    <span>COUNTER:</span>
+                                    <strong style={{ marginLeft: 'auto' }}>{selectedSched.branch_name}</strong>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px', width: '100%' }}>
+                                    <span>TIME:</span>
+                                    <strong style={{ marginLeft: 'auto' }}>{selectedSched.start_time}-{selectedSched.end_time}</strong>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px dotted #ccc', marginTop: '6px', paddingTop: '6px', width: '100%' }}>
+                                    <span>FEE:</span>
+                                    <strong style={{ marginLeft: 'auto' }}>Rs. {selectedSched.fees}</strong>
+                                </div>
+
+                                <div style={{ marginTop: '12px', fontSize: '9px', textAlign: 'center', fontStyle: 'italic', borderTop: '1px solid #000', paddingTop: '8px', width: '100%' }}>
+                                    Thank you for choosing us!
+                                    <br />
+                                    Please wait for your turn.
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>,
-                document.body
-            )}
+                    </div>,
+                    document.body
+                )
+            }
 
             <style>{`
                 /* Normal View: Hide printable slip */
@@ -362,6 +447,6 @@ export default function StaffPrintToken({ staff, onToast, onNavigate, initialDat
                     }
                 }
             `}</style>
-        </div>
+        </div >
     );
 }

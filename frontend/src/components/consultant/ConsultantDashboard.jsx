@@ -562,62 +562,69 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                                 const nowMins = now.getHours() * 60 + now.getMinutes();
                                                 const [endH, endM] = sched.end_time.split(':').map(Number);
                                                 const isPast = nowMins > endH * 60 + endM;
+
+                                                const schedTokens = tokensBySchedule[sched.schedule_id] || [];
+                                                const allTokensFinished = schedTokens.length > 0 && schedTokens.every(t => ['Completed', 'No-Show', 'Cancelled'].includes(t.status));
+
                                                 return (
                                                     <div
                                                         key={sched.schedule_id}
                                                         className="glass-card"
                                                         style={{
-                                                            background: isPast ? 'var(--bg-surface)' : 'var(--bg-card)',
+                                                            background: (isPast || allTokensFinished) ? 'var(--bg-surface)' : 'var(--bg-card)',
                                                             padding: '24px', position: 'relative',
                                                             border: '1px solid var(--glass-border)',
                                                             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                                            cursor: isPast ? 'not-allowed' : 'pointer',
+                                                            cursor: (isPast || allTokensFinished) ? 'not-allowed' : 'pointer',
                                                             boxShadow: 'var(--shadow-sm)',
-                                                            opacity: isPast ? 0.75 : 1,
+                                                            opacity: (isPast || allTokensFinished) ? 0.75 : 1,
                                                             overflow: 'hidden'
                                                         }}
-                                                        onClick={() => { if (!isPast) setActiveScheduleId(sched.schedule_id); }}
+                                                        onClick={() => { if (!isPast && !allTokensFinished) setActiveScheduleId(sched.schedule_id); }}
                                                         onMouseEnter={(e) => {
-                                                            if (isPast) return;
+                                                            if (isPast || allTokensFinished) return;
                                                             e.currentTarget.style.transform = 'translateY(-4px)';
                                                             e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                                                             e.currentTarget.style.borderColor = 'var(--primary)';
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            if (isPast) return;
+                                                            if (isPast || allTokensFinished) return;
                                                             e.currentTarget.style.transform = 'translateY(0)';
                                                             e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                                                             e.currentTarget.style.borderColor = 'var(--glass-border)';
                                                         }}
                                                     >
-                                                        {/* FINISHED stamp overlay for ended sessions */}
-                                                        {isPast && (
+                                                        {/* Status stamp overlay for ended or completed sessions */}
+                                                        {(isPast || allTokensFinished) && (
                                                             <div style={{
                                                                 position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                                                 zIndex: 10, pointerEvents: 'auto',
-                                                                background: 'rgba(197, 173, 237, 0.3)', backdropFilter: 'blur(3px)'
+                                                                background: isPast ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                                                                backdropFilter: 'blur(4px)'
                                                             }}
                                                                 onClick={(e) => e.stopPropagation()}
                                                             >
                                                                 <div style={{
-                                                                    border: '4px solid rgba(16, 185, 129, 0.8)',
-                                                                    color: 'rgba(16, 185, 129, 0.9)',
+                                                                    border: `4px solid ${isPast ? '#ef4444' : '#10b981'}`,
+                                                                    color: isPast ? '#ef4444' : '#10b981',
                                                                     padding: '12px 32px',
-                                                                    borderRadius: '8px',
+                                                                    borderRadius: '12px',
                                                                     fontSize: '28px',
                                                                     fontWeight: '900',
-                                                                    letterSpacing: '6px',
+                                                                    letterSpacing: '4px',
                                                                     textTransform: 'uppercase',
                                                                     transform: 'rotate(-12deg)',
-                                                                    textShadow: '0 4px 15px rgba(0,0,0,0.5)',
+                                                                    textShadow: '0 4px 15px rgba(0,0,0,0.2)',
                                                                     userSelect: 'none',
-                                                                    boxShadow: 'inset 0 0 20px rgba(16, 185, 129, 0.2), 0 0 20px rgba(16, 185, 129, 0.2)'
+                                                                    boxShadow: `inset 0 0 20px ${isPast ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}, 0 0 20px ${isPast ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}`,
+                                                                    background: 'rgba(255, 255, 255, 0.1)'
                                                                 }}>
-                                                                    FINISHED
+                                                                    {isPast ? 'ENDED' : 'COMPLETED'}
                                                                 </div>
                                                             </div>
                                                         )}
+
 
                                                         <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
                                                             <span style={{ background: 'rgba(37, 99, 235, 0.1)', color: 'var(--primary)', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '900' }}>Series: {sched.token_series}</span>
@@ -630,9 +637,9 @@ export default function ConsultantDashboard({ consultant, onToast }) {
                                                             <div style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text-main)' }}>🕒 {sched.start_time} - {sched.end_time}</div>
                                                         </div>
 
-                                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', color: isPast ? 'var(--slate-500)' : 'var(--primary)', fontWeight: '800', fontSize: '14px' }}>
-                                                            <span>{isPast ? 'Session Closed' : 'Open Workspace'}</span>
-                                                            <span>{isPast ? '🔒' : '➔'}</span>
+                                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', color: (isPast || allTokensFinished) ? 'var(--slate-500)' : 'var(--primary)', fontWeight: '800', fontSize: '14px' }}>
+                                                            <span>{(isPast || allTokensFinished) ? (isPast ? 'Session Closed' : 'Session Completed') : 'Open Workspace'}</span>
+                                                            <span>{(isPast || allTokensFinished) ? '🔒' : '➔'}</span>
                                                         </div>
                                                     </div>
                                                 );

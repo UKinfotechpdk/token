@@ -180,7 +180,7 @@ export default function KioskBookingFlow() {
             case 'branch':
                 return <BranchSelector branches={branches} onSelect={handleBranchSelect} loading={loading} />;
             case 'schedule':
-                return <ScheduleSelector schedules={schedules} onSelect={handleScheduleSelect} loading={loading} queueData={queueData} />;
+                return <ScheduleSelector schedules={schedules} onSelect={handleScheduleSelect} loading={loading} queueData={queueData} onBack={goBack} />;
             case 'booking':
                 return (
                     <BookingDetails

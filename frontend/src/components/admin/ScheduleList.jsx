@@ -106,9 +106,9 @@ export default function ScheduleList({ onToast, onAddNew, onEdit, onDelete, onBa
                 key={slot.schedule_id}
                 className={`schedule-card${isCompleted ? ' disabled' : ''}`}
                 style={{
-                    background: isCompleted ? 'rgba(255, 255, 255, 0.03)' : 'var(--bg-card)',
+                    background: isCompleted ? 'rgba(255, 255, 255, 0.15)' : 'var(--bg-card)',
                     borderRadius: '24px',
-                    border: `1px solid ${isCompleted ? 'rgba(255, 255, 255, 0.05)' : 'var(--glass-border)'}`,
+                    border: `2px solid ${isCompleted ? 'rgba(255, 255, 255, 0.45)' : 'var(--glass-border)'}`,
                     display: 'flex',
                     flexDirection: 'column',
                     boxShadow: isCompleted ? 'none' : 'var(--shadow-md)',
@@ -116,7 +116,7 @@ export default function ScheduleList({ onToast, onAddNew, onEdit, onDelete, onBa
                     position: 'relative',
                     overflow: 'hidden',
                     cursor: 'pointer',
-                    opacity: isCompleted ? 0.6 : 1,
+                    opacity: isCompleted ? 0.85 : 1,
                     backdropFilter: 'blur(10px)',
                 }}
             >

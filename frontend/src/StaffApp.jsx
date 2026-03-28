@@ -42,20 +42,14 @@ export default function StaffApp({ user, onLogout }) {
 
     return (
         <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <header className="top-header" style={{
-                background: 'var(--bg-surface)',
-                backdropFilter: 'blur(20px)',
-                borderBottom: '1px solid var(--glass-border)',
-                boxShadow: 'var(--shadow-sm)',
-                zIndex: 1000
-            }}>
+            <header className="top-header premium-navbar">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => handleNavigate('dashboard')}>
                     <span style={{ fontSize: '24px' }}>🏢</span>
                     <div>
-                        <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-main)' }}>
-                            Service Hub <span className="highlight" style={{ color: 'var(--primary)' }}>Staff</span>
+                        <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800', color: '#ffffff' }}>
+                            Service Hub <span className="highlight" style={{ color: '#bae6fd' }}>Staff</span>
                         </h1>
-                        <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>
+                        <p style={{ margin: 0, fontSize: '11px', color: 'rgba(255,255,255,0.7)', fontWeight: '500', marginTop: '2px' }}>
                             {user?.branch_name || 'All Branches'} Office
                         </p>
                     </div>
@@ -63,22 +57,22 @@ export default function StaffApp({ user, onLogout }) {
 
                 <div className="header-user-section" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     <div className="header-user-info" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div className="user-avatar" style={{ width: 36, height: 36, fontSize: 14, background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', fontWeight: '800', boxShadow: 'var(--shadow-sm)' }}>
+                        <div className="user-avatar" style={{ width: 36, height: 36, fontSize: 14, background: 'rgba(255,255,255,0.15)', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '12px', fontWeight: '800', border: '1px solid rgba(255,255,255,0.2)' }}>
                             {user?.staff_name?.charAt(0).toUpperCase()}
                         </div>
                         <div className="hide-on-mobile" style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontSize: '13px', fontWeight: '800', color: 'var(--text-main)' }}>{user?.staff_name}</span>
-                            <span style={{ fontSize: '10px', fontWeight: '600', color: 'var(--text-muted)' }}>Staff Member</span>
+                            <span style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff' }}>{user?.staff_name}</span>
+                            <span style={{ fontSize: '10px', fontWeight: '600', color: 'rgba(255,255,255,0.7)' }}>Staff Member</span>
                         </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         {activeView !== 'dashboard' && (
-                            <button className="btn btn-secondary btn-sm" onClick={() => handleNavigate('dashboard')} style={{ padding: '6px 12px', fontSize: '13px', borderRadius: '8px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <button className="btn btn-secondary btn-sm" onClick={() => handleNavigate('dashboard')} style={{ padding: '6px 12px', fontSize: '13px', borderRadius: '8px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.1)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.2)' }}>
                                 <span>🏠</span> <span className="hide-on-mobile">Dashboard</span>
                             </button>
                         )}
-                        <button className="btn btn-secondary btn-sm sign-out-btn" onClick={onLogout} style={{ padding: '8px 16px', fontSize: '13px', borderRadius: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <button className="btn btn-primary btn-sm sign-out-btn" onClick={onLogout} style={{ padding: '8px 16px', fontSize: '13px', borderRadius: '10px', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0284c7', color: '#ffffff', border: 'none', boxShadow: 'var(--shadow-sm)' }}>
                             <span className="hide-text-mobile">Sign Out</span> <span className="door-icon" style={{ marginLeft: '6px' }}>🚪</span>
                         </button>
                     </div>

@@ -1,81 +1,62 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ user, onLogout }) => {
-    const navigate = useNavigate();
-
     if (!user) return null;
 
     return (
-        <nav className="glass-nav" style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '1rem 2rem',
-            background: 'var(--bg-glass)',
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid var(--glass-border)',
-            position: 'sticky',
-            top: 0,
-            zIndex: 1000,
-            marginBottom: '1rem'
-        }}>
-            <div className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '1.5rem' }}>🎟️</span>
-                <Link to="/" style={{
-                    textDecoration: 'none',
-                    color: 'var(--text-main)',
-                    fontWeight: '700',
-                    fontSize: '1.2rem',
-                    letterSpacing: '-0.5px'
-                }}>
-                    Token Kiosk
-                </Link>
+        <nav className="top-header premium-navbar">
+            {/* Brand / Left Section */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span style={{ fontSize: '26px' }}>🎟️</span>
+                <div>
+                    <Link
+                        to="/user/dashboard"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '800', color: '#ffffff', letterSpacing: '-0.3px' }}>
+                            Token Kiosk
+                        </h2>
+                    </Link>
+                    <p style={{ margin: 0, fontSize: '11px', color: 'rgba(255,255,255,0.72)', fontWeight: '500' }}>
+                        Welcome, {user?.name || 'Customer'} 👋
+                    </p>
+                </div>
             </div>
 
-            {/* Removed Dashboard link as per user request */}
-
-            <div className="nav-user" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                <div className="user-info" style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Welcome,</div>
-                    <div style={{ fontWeight: '600', color: 'var(--secondary)' }}>{user.name}</div>
+            {/* Right Section */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                {/* Avatar */}
+                <div style={{
+                    width: 36, height: 36, borderRadius: '10px',
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1.5px solid rgba(255,255,255,0.3)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontWeight: '900', fontSize: '14px', color: '#ffffff'
+                }}>
+                    {user?.name?.charAt(0).toUpperCase()}
                 </div>
+
+                {/* Logout */}
                 <button
                     onClick={onLogout}
-                    className="btn btn-secondary btn-sm"
-                    style={{ padding: '8px 16px' }}
+                    style={{
+                        padding: '8px 20px',
+                        fontSize: '13px',
+                        borderRadius: '10px',
+                        fontWeight: '700',
+                        background: 'rgba(255,255,255,0.1)',
+                        border: '1px solid rgba(255,255,255,0.25)',
+                        color: '#ffffff',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s'
+                    }}
+                    onMouseEnter={e => e.target.style.background = 'rgba(255,255,255,0.22)'}
+                    onMouseLeave={e => e.target.style.background = 'rgba(255,255,255,0.1)'}
                 >
-                    Logout
+                    Sign Out 🚪
                 </button>
             </div>
-
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                .nav-item {
-                    text-decoration: none;
-                    color: var(--text-muted);
-                    font-weight: 500;
-                    transition: all 0.2s;
-                    font-size: 0.95rem;
-                }
-                .nav-item:hover {
-                    color: var(--secondary);
-                }
-                .glass-nav {
-                    background: var(--bg-surface);
-                    backdrop-filter: blur(var(--glass-blur));
-                }
-                .brand-text {
-                    font-size: 20px;
-                    font-weight: 800;
-                    color: white;
-                    letter-spacing: -0.5px;
-                }
-                .brand-icon {
-                    font-size: 24px;
-                    margin-right: 8px;
-                }
-            `}} />
         </nav>
     );
 };

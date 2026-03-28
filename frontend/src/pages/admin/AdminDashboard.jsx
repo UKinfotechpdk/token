@@ -66,7 +66,6 @@ const AdminDashboard = ({ user, onLogout }) => {
                     <div className="status-indicator">
                         <div className="dot-pulse"></div>
                         <span>System Online</span>
-                        <div className="premium-tooltip">System running smoothly</div>
                     </div>
 
                     <div className="header-user-info" style={{ display: 'flex', alignItems: 'center' }}>

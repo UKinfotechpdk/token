@@ -14,6 +14,7 @@ export default function BranchModule({ onToast, onNavigate }) {
         description: '', status: 'Active'
     });
     const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
     const [allBranches, setAllBranches] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -62,12 +63,54 @@ export default function BranchModule({ onToast, onNavigate }) {
 
         const error = validateField(fieldName, processedValue, newForm);
         setErrors(prev => ({ ...prev, [fieldName]: error }));
+        if (touched[fieldName]) {
+            // Re-validate proactively if already touched
+            setErrors(prev => ({ ...prev, [fieldName]: error }));
+        }
+    };
+
+    const handleBlur = (e) => {
+        const { id } = e.target;
+        const fieldMapping = {
+            'branch-name': 'branch_name',
+            'branch-email': 'email',
+            'branch-contact': 'contact',
+            'branch-location': 'location',
+            'branch-description': 'description',
+            'branch-status': 'status'
+        };
+        const fieldName = fieldMapping[id];
+        if (!fieldName) return;
+
+        setTouched(prev => ({ ...prev, [fieldName]: true }));
+        const error = validateField(fieldName, form[fieldName]);
+        setErrors(prev => ({ ...prev, [fieldName]: error }));
+    };
+
+    const validateForm = () => {
+        const requiredFields = ['branch_name', 'email', 'contact', 'location'];
+        const newErrors = {};
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            const error = validateField(field, form[field]);
+            if (error) {
+                newErrors[field] = error;
+                isValid = false;
+            } else if (!String(form[field]).trim()) {
+                newErrors[field] = `${field.replace('_', ' ')} is required.`;
+                isValid = false;
+            }
+        });
+
+        setErrors(newErrors);
+        return isValid;
     };
 
     const isFormValid = () => {
         const requiredFields = ['branch_name', 'email', 'contact', 'location'];
-        const hasErrors = Object.values(errors).some(err => err !== '');
-        const allFieldsFilled = requiredFields.every(field => String(form[field]).trim() !== '');
+        const hasErrors = Object.values(errors).some(err => err && err !== '');
+        const allFieldsFilled = requiredFields.every(field => String(form[field] || '').trim() !== '');
         return !hasErrors && allFieldsFilled;
     };
 
@@ -79,6 +122,7 @@ export default function BranchModule({ onToast, onNavigate }) {
         setEditingBranch(null);
         setForm({ branch_name: '', location: '', contact: '', email: '', description: '', status: 'Active' });
         setErrors({});
+        setTouched({});
         setView('form');
     };
 
@@ -97,12 +141,23 @@ export default function BranchModule({ onToast, onNavigate }) {
             status: branch.status
         });
         setErrors({});
+        setTouched({});
         setView('form');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!isFormValid()) return;
+        if (!validateForm()) {
+            const allTouched = { branch_name: true, email: true, contact: true, location: true };
+            setTouched(allTouched);
+            onToast('Please fix the errors in the form', 'error');
+
+            setTimeout(() => {
+                const firstError = document.querySelector('.has-error');
+                if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+            return;
+        }
 
         // Duplicate branch name check
         const normalName = form.branch_name.trim().toLowerCase();
@@ -112,6 +167,27 @@ export default function BranchModule({ onToast, onNavigate }) {
         );
         if (duplicate) {
             setErrors(prev => ({ ...prev, branch_name: `A branch named "${form.branch_name.trim()}" already exists` }));
+            setTouched(prev => ({ ...prev, branch_name: true }));
+            return;
+        }
+
+        const normalEmail = form.email.trim().toLowerCase();
+        const duplicateEmail = allBranches.find(b =>
+            b.email && b.email.trim().toLowerCase() === normalEmail && (!editingBranch || b.branch_id !== editingBranch.branch_id)
+        );
+        if (duplicateEmail) {
+            setErrors(prev => ({ ...prev, email: `Email "${form.email.trim()}" already exists` }));
+            setTouched(prev => ({ ...prev, email: true }));
+            return;
+        }
+
+        const cleanContact = form.contact.replace(/\D/g, '').slice(-10);
+        const duplicateContact = allBranches.find(b =>
+            b.contact && b.contact.replace(/\D/g, '').slice(-10) === cleanContact && (!editingBranch || b.branch_id !== editingBranch.branch_id)
+        );
+        if (duplicateContact && cleanContact.length === 10) {
+            setErrors(prev => ({ ...prev, contact: `Contact number "${form.contact.trim()}" already exists` }));
+            setTouched(prev => ({ ...prev, contact: true }));
             return;
         }
 
@@ -187,7 +263,7 @@ export default function BranchModule({ onToast, onNavigate }) {
             >
                 <form onSubmit={handleSubmit} className="module-form" noValidate>
                     <div className="form-grid">
-                        <div className={`premium-field ${errors.branch_name ? 'has-error' : ''}`} style={{ '--stagger': 1 }}>
+                        <div className={`premium-field ${touched.branch_name && errors.branch_name ? 'has-error' : (touched.branch_name && !errors.branch_name && form.branch_name ? 'has-success' : '')}`} style={{ '--stagger': 1 }}>
                             <label htmlFor="branch-name">Branch Name</label>
                             <div className="premium-input-wrapper">
                                 <div className="prefix-icon-box">🏢</div>
@@ -198,15 +274,16 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     required
                                     value={form.branch_name}
                                     onChange={handleInputChange}
+                                    onBlur={handleBlur}
                                     autoFocus
-                                    aria-invalid={!!errors.branch_name}
-                                    aria-describedby={errors.branch_name ? "branch-name-error" : undefined}
+                                    aria-invalid={touched.branch_name && !!errors.branch_name}
+                                    aria-describedby={touched.branch_name && errors.branch_name ? "branch-name-error" : undefined}
                                 />
                             </div>
-                            {errors.branch_name && <span id="branch-name-error" className="error-message">{errors.branch_name}</span>}
+                            {touched.branch_name && errors.branch_name && <span id="branch-name-error" className="error-message">{errors.branch_name}</span>}
                         </div>
 
-                        <div className={`premium-field ${errors.email ? 'has-error' : ''}`} style={{ '--stagger': 2 }}>
+                        <div className={`premium-field ${touched.email && errors.email ? 'has-error' : (touched.email && !errors.email && form.email ? 'has-success' : '')}`} style={{ '--stagger': 2 }}>
                             <label htmlFor="branch-email">Official Email</label>
                             <div className="premium-input-wrapper">
                                 <div className="prefix-icon-box">📧</div>
@@ -217,14 +294,15 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     required
                                     value={form.email}
                                     onChange={handleInputChange}
-                                    aria-invalid={!!errors.email}
-                                    aria-describedby={errors.email ? "branch-email-error" : undefined}
+                                    onBlur={handleBlur}
+                                    aria-invalid={touched.email && !!errors.email}
+                                    aria-describedby={touched.email && errors.email ? "branch-email-error" : undefined}
                                 />
                             </div>
-                            {errors.email && <span id="branch-email-error" className="error-message">{errors.email}</span>}
+                            {touched.email && errors.email && <span id="branch-email-error" className="error-message">{errors.email}</span>}
                         </div>
 
-                        <div className={`premium-field ${errors.contact ? 'has-error' : ''}`} style={{ '--stagger': 3 }}>
+                        <div className={`premium-field ${touched.contact && errors.contact ? 'has-error' : (touched.contact && !errors.contact && form.contact ? 'has-success' : '')}`} style={{ '--stagger': 3 }}>
                             <label htmlFor="branch-contact">Contact Number</label>
                             <div className="premium-input-wrapper">
                                 <div className="prefix-icon-box">📞</div>
@@ -235,14 +313,15 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     required
                                     value={form.contact}
                                     onChange={handleInputChange}
-                                    aria-invalid={!!errors.contact}
-                                    aria-describedby={errors.contact ? "branch-contact-error" : undefined}
+                                    onBlur={handleBlur}
+                                    aria-invalid={touched.contact && !!errors.contact}
+                                    aria-describedby={touched.contact && errors.contact ? "branch-contact-error" : undefined}
                                 />
                             </div>
-                            {errors.contact && <span id="branch-contact-error" className="error-message">{errors.contact}</span>}
+                            {touched.contact && errors.contact && <span id="branch-contact-error" className="error-message">{errors.contact}</span>}
                         </div>
 
-                        <div className="premium-field" style={{ '--stagger': 4 }}>
+                        <div className={`premium-field ${touched.status && errors.status ? 'has-error' : (touched.status && !errors.status && form.status ? 'has-success' : '')}`} style={{ '--stagger': 4 }}>
                             <label htmlFor="branch-status">Status</label>
                             <div className="premium-input-wrapper">
                                 <div className="prefix-icon-box">⚙️</div>
@@ -250,6 +329,7 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     id="branch-status"
                                     value={form.status}
                                     onChange={handleInputChange}
+                                    onBlur={handleBlur}
                                 >
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
@@ -257,7 +337,7 @@ export default function BranchModule({ onToast, onNavigate }) {
                             </div>
                         </div>
 
-                        <div className={`premium-field full-width ${errors.location ? 'has-error' : ''}`} style={{ '--stagger': 5 }}>
+                        <div className={`premium-field full-width ${touched.location && errors.location ? 'has-error' : (touched.location && !errors.location && form.location ? 'has-success' : '')}`} style={{ '--stagger': 5 }}>
                             <label htmlFor="branch-address">Location Address</label>
                             <div className="premium-input-wrapper">
                                 <div className="prefix-icon-box">📍</div>
@@ -268,9 +348,10 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     required
                                     value={form.location}
                                     onChange={handleInputChange}
+                                    onBlur={handleBlur}
                                 />
                             </div>
-                            {errors.location && <span className="error-message">{errors.location}</span>}
+                            {touched.location && errors.location && <span className="error-message">{errors.location}</span>}
                         </div>
 
                         <div className="premium-field full-width" style={{ '--stagger': 6 }}>
@@ -282,6 +363,7 @@ export default function BranchModule({ onToast, onNavigate }) {
                                     placeholder="Brief details about this branch..."
                                     value={form.description}
                                     onChange={handleInputChange}
+                                    onBlur={handleBlur}
                                     maxLength={500}
                                 />
                             </div>
@@ -295,7 +377,7 @@ export default function BranchModule({ onToast, onNavigate }) {
                         <button type="button" className="btn btn-secondary" onClick={() => setView('list')} disabled={loading}>
                             Cancel
                         </button>
-                        <button type="submit" className={`btn btn-primary ${loading ? 'btn-loading' : ''}`} disabled={!isFormValid() || loading}>
+                        <button type="submit" className={`btn btn-primary ${loading ? 'btn-loading' : ''}`} disabled={loading}>
                             <span className="btn-icon">💾</span>
                             {loading ? 'Saving...' : (editingBranch ? 'Update Branch' : 'Save Branch')}
                         </button>
